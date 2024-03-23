@@ -1,0 +1,138 @@
+<div class="page-body-wrapper">
+    {{>header}}
+    <!-- partial -->
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="home-tab">
+                        <div class="card card-rounded">
+                            <div class="card-body">
+                                <div class="d-sm-flex justify-content-between align-items-start">
+                                    <!-- Thêm class "col-12" để làm cho phần tử đó chiếm toàn bộ chiều rộng -->
+                                    <h1 class="text-center col-12 mt-2">Add Trash Bin</h1>
+                                </div>
+                                <form class="col-md-6 offset-md-3" id="addBinForm" action="/bins/add" method="post">
+                                    <div class="form-group">
+                                        <label>Adresss</label>
+                                        <input type="text" name="address" class="form-control" id="address"
+                                            placeholder="Enter adresss">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="lat">Bin Latitude</label>
+                                                <input type="text" name="lat" class="form-control" id="lat"
+                                                    placeholder="Enter binLat">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="lng">Bin Longitude</label>
+                                                <input type="text" name="lng" class="form-control" id="lng"
+                                                    placeholder="Enter binLng">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Or Pick Location</label>
+                                        <div id="map" style="height: 300px; width: 100%;" class="border p-2"></div>
+                                    </div>
+                                    <div id="errorAlert" class="alert alert-danger d-none" role="alert">
+                                        <strong>Error message! </strong>Please enter valid address and bin location.
+                                    </div>
+                                    <button class="btn btn-primary btn-lg text-white mb-0 me-0" id="submitBtn"
+                                        type="submit">Add New Bin</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {{>footer}}
+    <script>
+        $(document).ready(function () {
+            var pin;
+            var map = L.map('map').setView([16.0617238, 108.2162418], 15);
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+            // Gán sự kiện 'click' cho bản đồ
+            map.on('click', function (ev) {
+                $('#lat').val(ev.latlng.lat);
+                $('#lng').val(ev.latlng.lng);
+                if (typeof pin == "object") {
+                    pin.setLatLng(ev.latlng);
+                } else {
+                    pin = L.marker(ev.latlng, { riseOnHover: true, draggable: true });
+                    pin.addTo(map);
+                    pin.on('drag', function (ev) {
+                        $('#lat').val(ev.latlng.lat);
+                        $('#lng').val(ev.latlng.lng);
+                    });
+                }
+            });
+            $("#addBinForm").submit(function (event) {
+                event.preventDefault(); // Ngăn chặn gửi biểu mẫu
+                var address = $("#address").val();
+                var lat = $("#lat").val();
+                var lng = $("#lng").val();
+                // Ẩn nút và hiển thị hiệu ứng loading
+                $('#submitBtn').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+                if (address.trim() === "" || lat.trim() === "" || lng.trim() === "") {
+                    $("#errorAlert").removeClass('d-none');
+                    $('#submitBtn').prop('disabled', false).html('Add New Bin');
+                } else {
+                    // Nếu biểu mẫu hợp lệ, thực hiện yêu cầu AJAX
+                    $.ajax({
+                        type: "POST",
+                        url: '/bins/add',
+                        data: $(this).serialize(),
+                        success: function (response) {
+                            console.log(response);
+                            swal("Success! Your trash bin  has been created!", {
+                                icon: "success",
+                                buttons: {
+                                    cancel: "Cancel",
+                                    binList: {
+                                        text: "Bin List",
+                                        value: "binList", // Giá trị này sẽ được sử dụng để xác định lựa chọn người dùng
+                                    },
+                                },
+                            }).then((value) => {
+                                switch (value) {
+                                    case "binList":
+                                        window.location.href = "/bins"; // Chuyển hướng tới trang Bin List
+                                        break;
+                                    default:
+                                        // Xử lý trường hợp mặc định hoặc trường hợp "Cancel"
+                                        break;
+                                }
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            // Xử lý lỗi, có thể làm gì đó nếu cần thiết
+                            swal("Oops! Something went wrong!", {
+                                text: error,
+                                icon: "error",
+                            });
+                        },
+                        complete: function () {
+                            // Khôi phục lại nút và ẩn hiệu ứng loading
+                            $('#submitBtn').prop('disabled', false).html('Add New Bin');
+                        }
+                    });
+                }
+            });
+            // Xóa errorAlert khi các trường input thay đổi
+            $('#address, #lat, #lng').on('input', function () {
+                $('#errorAlert').addClass('d-none');
+            });
+        });
+    </script>
+</div>
