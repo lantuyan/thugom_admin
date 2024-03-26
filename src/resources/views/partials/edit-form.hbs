@@ -1,0 +1,117 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Link to Google Fonts - Roboto -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap CSS link -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Áp dụng font-family Roboto cho toàn bộ form */
+    body, input, select, label {
+      font-family: 'Times New Roman', sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container" style="padding-left: 200px;">
+  <div class="row">
+    <div class="col-lg-9">
+      <div class="card">
+        <div class="card-body">
+          <form id="myForm" enctype="multipart/form-data">
+              <div class="row mb-3">
+                <label for="nameInput" class="col-sm-2 col-form-label">Name:</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="nameInput" value="{{result.name}}" placeholder="Name" name="name">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="nameInput" class="col-sm-2 col-form-label">User name:</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="nameInput" value="{{result.username}}" placeholder="User name" name="username">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="emailInput" class="col-sm-2 col-form-label">Email:</label>
+                <div class="col-sm-10">
+                  <input type="email" class="form-control" id="emailInput" value="{{result.email}}" placeholder="example@email.com" name="email">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="passwordInput" class="col-sm-2 col-form-label">Password:</label>
+                <div class="col-sm-10 input-group">
+                  <input type="password" class="form-control" id="passwordInput" value="{{result.password}}" placeholder="" name="password">
+                  <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  
+                </div>
+
+              </div>
+              <div class="row mb-3">
+                <label for="phoneInput" class="col-sm-2 col-form-label">Phone:</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="phoneInput" value="{{result.phonenumber}}" placeholder="(+84)" name="phonenumber">
+                  <small id="phoneHelp" class="form-text text-muted">Please enter your phone number with country code +84.</small>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="phoneInput" class="col-sm-2 col-form-label">Zalo Phone:</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="zalonumberInput" value="{{result.zalonumber}}" placeholder="(+84)" name="zalonumber">
+                  <small id="phoneHelp" class="form-text text-muted">Please enter your phone number with country code +84.</small>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <label for="bioInput" class="col-sm-2 col-form-label">Address:</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="bioInput" value="{{result.address}}" placeholder="" name="address">
+                </div>
+              </div>
+              
+              <!-- New row for the submit button -->
+              <div class="row">
+                <div class="col-sm-10 offset-sm-2" style="padding-left:150px;"> <!-- Offset to center the button -->
+                  <button class="btn btn-success" type="submit" onclick="validateForm()">Comfirm</button>
+                  <a href="/users" class="btn btn-light">Cancel</a>
+                </div>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+<script>
+  function validateForm() {
+    var name = document.getElementById("nameInput").value;
+    var email = document.getElementById("emailInput").value;
+
+    if (name.trim() === "") {
+      document.getElementById("nameError").innerText = "Name cannot be empty.";
+      return;
+    } else {
+      document.getElementById("nameError").innerText = "";
+    }
+
+    if (email.trim() === "") {
+      document.getElementById("emailError").innerText = "Email cannot be empty.";
+      return;
+    } else {
+      document.getElementById("emailError").innerText = "";
+    }
+
+    // If everything is valid, you can proceed with form submission
+    document.getElementById("myForm").submit();
+  }
+</script>
+
+</html>
+
