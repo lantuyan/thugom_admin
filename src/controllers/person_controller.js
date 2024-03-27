@@ -1,7 +1,7 @@
 const { client, account,databases} = require('../services/appwrite_client');
 const { users } = require('../services/appwrite_server');
 const sdk = require("node-appwrite");
-const { v4: uuidv4 } = require('uuid');
+// const { v4: uuidv4 } = require('uuid');
 
 //view 
 exports.viewUser = async (req, res) => {
@@ -45,7 +45,7 @@ exports.form = (req, res) => {
     res.render('person/create_user',{title:"Add person"});
 }
 exports.createUser = (req, res) => {
-    var userId = uuidv4();
+    var userId = sdk.ID.unique();
     var uid = userId;
     const { name, email, phonenumber, password,zalonumber,address,username } = req.body;
     console.log(phonenumber,name)
