@@ -18,7 +18,7 @@ class SiteController {
                 process.env.APPWRITE_DB,
                 process.env.APPWRITE_REQUEST_COLLECTION,
                 [
-                    sdk.Query.limit(1000),
+                    sdk.Query.limit(200),
                     sdk.Query.offset(0),
                     sdk.Query.greaterThanEqual('createAt', untilDate),
                     sdk.Query.orderDesc("createAt"),
@@ -29,7 +29,7 @@ class SiteController {
                 process.env.APPWRITE_DB,
                 process.env.APPWRITE_USER_COLLECTION,
                 [
-                    sdk.Query.limit(1000),
+                    sdk.Query.limit(200),
                     sdk.Query.offset(0),
                     sdk.Query.greaterThanEqual('$createdAt', untilDate),
                     // sdk.Query.orderDesc("createAt"),
