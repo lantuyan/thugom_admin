@@ -1,7 +1,7 @@
 const { client, account,databases } = require('../services/appwrite_client');
 const { users } = require('../services/appwrite_server');
 const sdk = require("node-appwrite");
-const { v4: uuidv4 } = require('uuid');
+// const { v4: uuidv4 } = require('uuid');
 //view 
 exports.viewUser = async (req, res) => {
     const view = await databases.listDocuments(process.env.APPWRITE_DB, process.env.APPWRITE_USER_COLLECTION,[
@@ -38,7 +38,7 @@ exports.form = (req, res) => {
     res.render('collector/create_user',{title:"Add collector"});
 }
 exports.createUser = (req, res) => {
-    var userId = uuidv4();
+    var userId = sdk.ID.unique();
     var uid = userId;
     const { name, email, phonenumber, password,zalonumber,address,username } = req.body;
     console.log(phonenumber,name)
