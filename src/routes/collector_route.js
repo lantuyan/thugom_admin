@@ -2,16 +2,16 @@ const express = require('express');
 const Collector = require("../controllers/collector_controller");
 const router = express.Router();
 
-router.get('/', Collector.viewUser);
+router.get('/', Collector.viewCollector);
 
 router.get('/create', Collector.form);
-router.post('/create', Collector.createUser);
+router.post('/create', Collector.createCollector);
 
 
-router.get('/:id', Collector.editUser);
-router.post('/:id', Collector.updateUser);
+router.get('/:id', Collector.editCollector);
+router.post('/:id', Collector.updateCollector);
 
-router.get('/delete/:id', Collector.deleteUser);
+router.get('/delete/:id', Collector.deleteCollector);
 
 
 

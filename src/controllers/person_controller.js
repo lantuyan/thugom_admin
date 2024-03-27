@@ -1,7 +1,7 @@
 const { client, account,databases} = require('../services/appwrite_client');
 const { users } = require('../services/appwrite_server');
 const sdk = require("node-appwrite");
-// const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
 //view 
 exports.viewUser = async (req, res) => {
@@ -46,18 +46,17 @@ exports.form = (req, res) => {
 }
 exports.createUser = (req, res) => {
     var userId = sdk.ID.unique();
-    var uid = userId;
     const { name, email, phonenumber, password,zalonumber,address,username } = req.body;
-    console.log(phonenumber,name)
-    databases.createDocument(process.env.APPWRITE_DB,process.env.APPWRITE_USER_COLLECTION, userId, {email,username,role :'person',name,phonenumber,zalonumber,address,uid});
     users.create(userId,email,phonenumber,password,name )
     .then(response_create => {
-      console.log('User added successfully:', response_create);
-      res.render('person/create_user', { alert: 'User added successfully.' });
-    }).catch(error => {
-      console.error('Error adding user:', error);
-      res.render('person/create_user', { alert: 'Failed to add user. Please try again later.' });
-    });
+        console.log('Person added successfully:', response_create);
+        var userIdDB = response_create.$id;
+        res.render('person/create_user', { alert: 'User added successfully.' });
+        databases.createDocument(process.env.APPWRITE_DB,process.env.APPWRITE_USER_COLLECTION, userIdDB, {email,username,role : "person",name,phonenumber,zalonumber,address,uid:userIdDB});
+      }).catch(error => {
+        console.error('Error adding user:', error);
+        res.render('person/create_user', { alert: 'Failed to add user. Please try again later.' });
+      }); 
 }
 // Edit
 exports.editUser = (req, res) => {

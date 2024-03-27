@@ -1,71 +1,42 @@
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Link to Google Fonts - Roboto -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Bootstrap CSS link -->
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    /* Áp dụng font-family Roboto cho toàn bộ form */
-    body, input, select, label {
-      font-family: 'Times New Roman', sans-serif;
-    }
-  </style>
-</head>
-
-<body>
-<div class="container" style="padding-left: 200px;">
+<div class="container custom-form" style="padding-left: 400px;padding-top:50px">
   <div class="row">
-    <div class="col-lg-9">
+    <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
           <form id="myForm" enctype="multipart/form-data">
+          <h1 style="text-align: center;padding-bottom:20px">Update Request</h1>
               <div class="row mb-3">
-                <label for="phoneInput" class="col-sm-2 col-form-label">Phone:</label>
-                <div class="col-sm-10">
+                <label for="phoneInput" class="col-sm-3 col-form-label">Phone:</label>
+                <div class="col-sm-9">
                   <input type="text" class="form-control" id="phoneInput" value="{{result.phone_number}}" placeholder="(+84)" name="phonenumber">
                   <small id="phoneHelp" class="form-text text-muted">Please enter your phone number with country code +84.</small>
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="addressInput" class="col-sm-2 col-form-label">Address:</label>
-                <div class="col-sm-10">
+                <label for="addressInput" class="col-sm-3 col-form-label">Address:</label>
+                <div class="col-sm-9">
                   <input type="text" class="form-control" id="addressInput" value="{{result.address}}" placeholder="" name="address">
                 </div>
               </div>
 
               <div class="row mb-3">
-                <label for="descriptionInput" class="col-sm-2 col-form-label">Description:</label>
-                <div class="col-sm-10">
+                <label for="descriptionInput" class="col-sm-3 col-form-label">Describe</label>
+                <div class="col-sm-9">
                   <input type="text" class="form-control" id="descriptionInput" value="{{result.description}}" placeholder="" name="description">
                 </div>
               </div>
-                <div class="row mb-3">
-                <label for="statusInput" class="col-sm-2 col-form-label">Status:</label>
-                <div class="col-sm-10">
-                    <select class="form-control" id="statusInput" name="status">
-                        <option value="{{result.status }}">Pending</option>
-                        <option value="{{result.status }}" >Processing</option>
-                        <option value="{{result.status }}" >Confirming</option>
-                        <option value="{{result.status }}">Cancel</option>
-                        <option value="{{result.status }}" >Finish</option>
-                    </select>
-
+              <div class="row mb-3">
+                <label for="descriptionInput" class="col-sm-3 col-form-label">Status</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="statusInput" value="{{result.status}}" placeholder="" name="status">
                 </div>
+              </div>
+              <div class="row mb-3">
+                <label for="descriptionInput" class="col-sm-3 col-form-label">Trash type</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="trashtypeInput" value="{{result.trash_type}}" placeholder="" name="trashtype">
                 </div>
-
-                <div class="row mb-3">
-                <label for="trashtypeInput" class="col-sm-2 col-form-label">Trash type:</label>
-                <div class="col-sm-10">
-                    
-                    <select class="form-control" id="trashtypeInput" name="trashtype" >
-                        <option value="{{result.trashtype}}" >Rác cồng kềnh</option>
-                        <option value="{{result.trashtype}}" >Rác xây dựng</option>
-                        <option value="{{result.trashtype}}" >Rác tái chế</option>
-                        <option value="{{result.trashtype}}" >Rác khác</option>
-                    </select>
-                </div>
-                </div>
+              </div>
 
               
               <!-- New row for the submit button -->
@@ -81,11 +52,6 @@
     </div>
   </div>
 </div>
-
-
-  <!-- Bootstrap Bundle with Popper -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-</body>
 <script>
   function validateForm() {
 
@@ -94,5 +60,4 @@
   }
 </script>
 
-</html>
 
