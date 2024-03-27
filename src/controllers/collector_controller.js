@@ -49,10 +49,7 @@ exports.createCollector = (req, res) => {
       }).catch(error => {
         console.error('Error adding user:', error);
         res.render('collector/create_collector', { alert: 'Failed to add user. Please try again later.' });
-      });
-    
-    
-    
+      }); 
 }
 // Edit
 exports.editCollector = (req, res) => {
