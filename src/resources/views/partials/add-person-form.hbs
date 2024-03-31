@@ -1,0 +1,137 @@
+<div class="container custom-form" style="padding-left: 400px; padding-top:50px">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <form id="myForm" enctype="multipart/form-data">
+          <h1 style="text-align: center;padding-bottom:20px">Add Person</h1>
+              <div class="row mb-3">
+                <label for="nameInput" class="col-sm-3 col-form-label">Name:</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="nameInput" value="{{this.name}}" placeholder="Name" name="name">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="nameInput" class="col-sm-3 col-form-label">User name:</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="nameInput" value="{{this.username}}" placeholder="User name" name="username">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="emailInput" class="col-sm-3 col-form-label">Email:</label>
+                <div class="col-sm-9">
+                  <input type="email" class="form-control" id="emailInput" value="{{this.email}}" placeholder="example@email.com" name="email">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="passwordInput" class="col-sm-3 col-form-label">Password:</label>
+                <div class="col-sm-9 input-group">
+                  <input type="password" class="form-control" id="passwordInput" value="{{this.password}}" placeholder="" name="password">
+                  <button class="btn btn-outline-secondary" type="button" id="togglePassword" onclick="togglePassword()">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="phoneInput" class="col-sm-3 col-form-label">Phone:</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="phoneInput" value="{{this.phonenumber}}" placeholder="(+84)" name="phonenumber">
+                  <small id="phoneHelp" class="form-text text-muted">Please enter your phone number with country code +84.</small>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="phoneInput" class="col-sm-3 col-form-label">Zalo Phone:</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="zalonumberInput" value="{{this.zalonumber}}" placeholder="(+84)" name="zalonumber">
+                  <small id="phoneHelp" class="form-text text-muted">Please enter your phone number with country code +84.</small>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <label for="bioInput" class="col-sm-3 col-form-label">Address:</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="bioInput" value="{{this.address}}" placeholder="" name="address">
+                </div>
+              </div>
+              
+              <!-- New row for the submit button -->
+              <div class="row">
+                <div class="col-sm-10 offset-sm-2" style="padding-left:80px;"> <!-- Offset to center the button -->
+                  <button class="btn btn-success" type="submit" onclick="validateForm()">Comfirm</button>
+                  <a href="/users" class="btn btn-light">Cancel</a>
+                </div>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Bootstrap Bundle with Popper -->
+<script>
+  function togglePassword() {
+    var passwordInput = document.getElementById("passwordInput");
+    var toggleButton = document.getElementById("togglePassword");
+
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+      toggleButton.innerHTML = '<i class="bi bi-eye-slash"></i>';
+    } else {
+      passwordInput.type = "password";
+      toggleButton.innerHTML = '<i class="bi bi-eye"></i>';
+    }
+  }
+
+  function validateForm() {
+    var name = document.getElementById("nameInput").value;
+    var email = document.getElementById("emailInput").value;
+    var password = document.getElementById("passwordInput").value;
+    var phone = document.getElementById("phoneInput").value;
+    var phonenumber = document.getElementById("phoneInput").value; // Thêm dòng này
+    var zalonumber = document.getElementById("zalonumberInput").value; // Thêm dòng này
+
+    // Regular expression to check if phone starts with +84
+    var phoneRegex = /^\+84\d{9,10}$/;
+
+    if (name === "" || email === "" || password === "") {
+      alert("Please fill out all required fields: Name, Email, and Password.");
+      return false; // Prevent form submission
+    }
+
+    if (password.length < 8 || password.length > 24) {
+      alert("Password must be between 8 and 24 characters long.");
+      return false; // Prevent form submission
+    }
+
+    if (phone !== "") {
+      if (!phone.match(phoneRegex)) {
+        alert("Please enter a valid phone number starting with +84.");
+        return false; // Prevent form submission
+      }
+    }
+    if (phonenumber !== "") { // Sửa thành phonenumber
+      if (!phonenumber.match(phoneRegex)) {
+        alert("Please enter a valid phone number starting with +84.");
+        return false; // Prevent form submission
+      }
+    }
+    if (zalonumber !== "") { // Sửa thành zalonumber
+      if (!zalonumber.match(phoneRegex)) {
+        alert("Please enter a valid phone number starting with +84.");
+        return false; // Prevent form submission
+      }
+    }
+    
+    // If all fields are filled and phone number is valid, you can proceed with form submission
+    document.getElementById("myForm").submit();
+  }
+</script>
+
+
+
+
+
+
+
+
