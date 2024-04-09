@@ -13,6 +13,7 @@ exports.viewBlacklist= async (req, res) => {
         email: doc.email,
         role: doc.role,
         phonenumber: doc.phonenumber,
+        zalonumber:doc.zalonumber,
         address: doc.address,
         id: doc.$id
     }));
