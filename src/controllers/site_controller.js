@@ -20,9 +20,9 @@ class SiteController {
                 [
                     sdk.Query.limit(200),
                     sdk.Query.offset(0),
-                    sdk.Query.greaterThanEqual('createAt', untilDate),
-                    sdk.Query.orderDesc("createAt"),
-                    sdk.Query.select(['status', 'createAt'],) // Chỉ lấy hai trường status và createdAt
+                    sdk.Query.greaterThanEqual('$createdAt', untilDate),
+                    sdk.Query.orderAsc("$createdAt"),
+                    sdk.Query.select(['status', 'createAt','collection_price','amount_collected']) // Chỉ lấy hai trường status và createdAt
                 ]
             );
             const userQuery = await databases.listDocuments(
@@ -36,12 +36,21 @@ class SiteController {
                     sdk.Query.select(['role', '$createdAt'],) // Chỉ lấy hai trường status và createdAt
                 ]
             );
+            // Tính tổng collection_price
+            const totalCollectionPrice = lodash.sumBy(promise.documents, item => parseInt(item.collection_price || 0)).toLocaleString();
+            // Tính tổng amount_collected
+            const totalAmountCollected = lodash.sumBy(promise.documents, item => parseInt(item.amount_collected || 0)).toLocaleString();
+        
             const dataRequestDate = processData(promise.documents);
             const dataRequestByType = lodash.countBy(promise.documents, doc => lodash.capitalize(doc.status));
             const dataUser = processDataUser(userQuery.documents);
-            // res.json(dataRequestByType);
+            const dataRequestAmount = {
+                'totalCollectionPrice' : totalCollectionPrice,
+                'totalAmountCollected' : totalAmountCollected
+            }
+            // res.json(dataRequestAmount);
             // res.render('home', { title: "Home Page", data7Days: JSON.stringify(data7Days), dataUsers: dataUsers});
-            res.render('home', { title: "Home Page", dataRequestDate: JSON.stringify(dataRequestDate), dataRequestByType:JSON.stringify(dataRequestByType),dataUser: JSON.stringify(dataUser)});
+            res.render('home', { title: "Home Page", dataRequestDate: JSON.stringify(dataRequestDate), dataRequestByType:JSON.stringify(dataRequestByType),dataUser: JSON.stringify(dataUser),dataRequestAmount:dataRequestAmount});
         } catch (error) {
             console.log(error);
             res.status(500).send(error.message);
