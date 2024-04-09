@@ -19,6 +19,8 @@ exports.viewRequest = async (req, res) => {
         description: doc.description,
         status:doc.status,
         trashtype:doc.trash_type,
+        price:doc.collection_price,
+        amount:doc.amount_collected,
         createAt: moment(doc.createAt).format("DD-MM-YYYY"),
         id: doc.$id
     }));
@@ -59,7 +61,7 @@ exports.editRequest = (req, res) => {
 
 exports.updateRequest = (req, res) => {
     const userId = req.params.id; 
-    const {  phonenumber,address,description,status,trashtype} = req.body;
+    const {  phonenumber,address,description,status,trashtype,price,amount} = req.body;
 
     databases.updateDocument(process.env.APPWRITE_DB,process.env.APPWRITE_REQUEST_COLLECTION, userId, 
     {
@@ -67,7 +69,9 @@ exports.updateRequest = (req, res) => {
         address:address,
         status:status,
         description:description,
-        trash_type:trashtype
+        trash_type:trashtype,
+        collection_price:price,
+        amount_collected:amount
     })
     .then(response_update => {
         res.render('request/edit_user',{ alert: 'User update successfully.' });
