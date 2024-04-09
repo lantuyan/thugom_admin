@@ -4,6 +4,10 @@ const personRouter = require('./person_route')
 const collectorRouter = require('./collector_route')
 const requestRouter = require('./request_route')
 const collectionPointRouter = require('./collection_point_route')
+const urencoRouter = require('./urenco_route')
+const angencyRouter = require('./angency_route')
+const blacklistRouter = require('./blacklist_route')
+const feedbackRouter = require('./feedback_route')
 const { isLoggedIn, isLoggedSS } = require('../middlewares/login_middleware');
 
 function route(app) {
@@ -13,6 +17,10 @@ function route(app) {
     app.use('/collectors',isLoggedIn, collectorRouter);
     app.use('/requests',isLoggedIn, requestRouter);
     app.use('/collection-points',isLoggedIn, collectionPointRouter);
+    app.use('/urenco',isLoggedIn, urencoRouter);
+    app.use('/angency',isLoggedIn, angencyRouter);
+    app.use('/blacklist',isLoggedIn, blacklistRouter);
+    app.use('/feedback',isLoggedIn, feedbackRouter);
     // app.get('/login', function (req, res) {
     //     res.render('auth/login');
     // })

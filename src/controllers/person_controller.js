@@ -74,7 +74,7 @@ exports.editUser = (req, res) => {
 
 exports.updateUser = (req, res) => {
     const userId = req.params.id; 
-    const {  name, email, phonenumber,zalonumber,address,username } = req.body;
+    const {  name, email, phonenumber,zalonumber,address,username,role} = req.body;
 
     databases.updateDocument(process.env.APPWRITE_DB,process.env.APPWRITE_USER_COLLECTION, userId, 
     {
@@ -83,7 +83,8 @@ exports.updateUser = (req, res) => {
         phonenumber:phonenumber,
         zalonumber: zalonumber,
         username:username,
-        address:address
+        address:address,
+        role:role
         
     })
     .then(response_update => {

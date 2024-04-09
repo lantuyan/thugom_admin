@@ -2,21 +2,41 @@ const { client, account,databases } = require('../services/appwrite_client');
 const { users } = require('../services/appwrite_server');
 const sdk = require("node-appwrite");
 const { v4: uuidv4 } = require('uuid');
-//view 
-exports.viewCollector = async (req, res) => {
+//Lấy dữ liệu với role = collector và subrole = urenco
+exports.viewUrenco= async (req, res) => {
     const view = await databases.listDocuments(process.env.APPWRITE_DB, process.env.APPWRITE_USER_COLLECTION,[
         sdk.Query.limit(100),
         sdk.Query.offset(0)
     ]);
-    const collectorData = view.documents.filter(doc => doc.role === 'collector').map(doc => ({
+    const urencoData = view.documents.filter(doc => doc.role === 'collector' && doc.subrole ==='Urenco').map(doc => ({
         username: doc.username,
         email: doc.email,
         role: doc.role,
+        subrole: doc.subrole,
         phonenumber: doc.phonenumber,
         address: doc.address,
         id: doc.$id
     }));
-    res.render('collector/index', { title: "collector", collectorData });
+    res.render('subrole/urenco_index', { title: "urenco", urencoData });
+
+}
+
+//Lấy dữ liệu với role = collector và subrole = angency
+exports.viewAngency= async (req, res) => {
+    const view = await databases.listDocuments(process.env.APPWRITE_DB, process.env.APPWRITE_USER_COLLECTION,[
+        sdk.Query.limit(100),
+        sdk.Query.offset(0)
+    ]);
+    const angencyData = view.documents.filter(doc => doc.role === 'collector' && doc.subrole ==='Angency').map(doc => ({
+        username: doc.username,
+        email: doc.email,
+        role: doc.role,
+        subrole:doc.subrole,
+        phonenumber: doc.phonenumber,
+        address: doc.address,
+        id: doc.$id
+    }));
+    res.render('subrole/angency_index', { title: "angency", angencyData });
 
 }
 
@@ -33,24 +53,7 @@ exports.deleteCollector = (req, res) => {
     });
 }
 
-//create
-exports.form = (req, res) => {
-    res.render('collector/create_collector',{title:"Add collector"});
-}
-exports.createCollector = (req, res) => {
-    var userId = sdk.ID.unique();
-    const { name, email, phonenumber, password,zalonumber,address,username,subrole } = req.body;
-    users.create(userId,email,phonenumber,password,name )
-    .then(response_create => {
-        console.log('Collector added successfully:', response_create);
-        var userIdDB = response_create.$id;
-        res.render('collector/create_collector', { alert: 'User added successfully.' });
-        databases.createDocument(process.env.APPWRITE_DB,process.env.APPWRITE_USER_COLLECTION, userIdDB, {email,username,role : "collector",name,phonenumber,zalonumber,address,subrole,uid:userIdDB});
-      }).catch(error => {
-        console.error('Error adding user:', error);
-        res.render('collector/create_collector', { alert: 'Failed to add user. Please try again later.' });
-      }); 
-}
+
 // Edit
 exports.editCollector = (req, res) => {
     const userId = req.params.id;
@@ -67,7 +70,7 @@ exports.editCollector = (req, res) => {
 
 exports.updateCollector = (req, res) => {
     const userId = req.params.id; 
-    const { name, email, phonenumber,zalonumber,address,username,role,subrole } = req.body;
+    const { name, email, phonenumber,zalonumber,address,username } = req.body;
 
     databases.updateDocument(process.env.APPWRITE_DB,process.env.APPWRITE_USER_COLLECTION, userId, 
     {
@@ -76,9 +79,7 @@ exports.updateCollector = (req, res) => {
         phonenumber:phonenumber,
         zalonumber: zalonumber,
         username:username,
-        address:address,
-        role:role,
-        subrole:subrole
+        address:address
         
     })
     .then(response_update => {
