@@ -14,6 +14,7 @@ exports.viewUrenco= async (req, res) => {
         role: doc.role,
         subrole: doc.subrole,
         phonenumber: doc.phonenumber,
+        zalonumber:doc.zalonumber,
         address: doc.address,
         id: doc.$id
     }));
@@ -33,6 +34,7 @@ exports.viewAngency= async (req, res) => {
         role: doc.role,
         subrole:doc.subrole,
         phonenumber: doc.phonenumber,
+        zalonumber:doc.zalonumber,
         address: doc.address,
         id: doc.$id
     }));
@@ -40,58 +42,4 @@ exports.viewAngency= async (req, res) => {
 
 }
 
-// Delete User
-exports.deleteCollector = (req, res) => {
-    const userId = req.params.id;
-    databases.deleteDocument(process.env.APPWRITE_DB,process.env.APPWRITE_USER_COLLECTION , userId);
-    users.delete(userId).then(function (response_delete) {
-        res.redirect('/collectors');
-    }).catch(function(error) {
-        console.log('Error deleting user:', error);
-        // Xử lý phản hồi lỗi ở đây
-        res.status(500).send("Error deleting user");  
-    });
-}
-
-
-// Edit
-exports.editCollector = (req, res) => {
-    const userId = req.params.id;
-    databases.getDocument(process.env.APPWRITE_DB, process.env.APPWRITE_USER_COLLECTION, userId)
-    .then(result => {
-        res.render('collector/edit_collector', {title:"Edit user",result});
-    })
-    .catch(error => {
-        console.error(error);
-        res.redirect('/collectors');
-    });
-};
-
-
-exports.updateCollector = (req, res) => {
-    const userId = req.params.id; 
-    const { name, email, phonenumber,zalonumber,address,username } = req.body;
-
-    databases.updateDocument(process.env.APPWRITE_DB,process.env.APPWRITE_USER_COLLECTION, userId, 
-    {
-        name:name,
-        email:email,
-        phonenumber:phonenumber,
-        zalonumber: zalonumber,
-        username:username,
-        address:address
-        
-    })
-    .then(response_update => {
-        res.render('collector/edit_collector',{ alert: 'User update successfully.' });
-      }).catch(error => {
-        console.error('Error updat user:', error);
-        res.redirect('/collectors');
-    });
-    users.updateEmail(userId, email);
-    users.updateName(userId, name);
-
-
-
-}
 
