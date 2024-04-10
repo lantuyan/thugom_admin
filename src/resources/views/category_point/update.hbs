@@ -1,0 +1,133 @@
+<div class="page-body-wrapper">{{>header}}
+    <!-- partial -->
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="home-tab">
+                        <div class="card card-rounded">
+                            <div class="card-body">
+                                <div class="d-sm-flex justify-content-between align-items-start">
+                                    <!-- Thêm class "col-12" để làm cho phần tử đó chiếm toàn bộ chiều rộng -->
+                                    <h1 class="text-center col-12 mt-2">Thêm loại địa điểm</h1>
+                                </div>
+                                <form class="col-md-6 offset-md-3" id="updateForm" action="/banners/{{ banner.id }}"
+                                    method="POST" enctype="multipart/form-data">
+                                    <input type="hidden" name="id" value="{{ categoryPoint.$id }}" id="id">
+                                    <div class="form-group">
+                                        <label for="label">Tên loại địa điểm:</label>
+                                        <input type="text" value="{{categoryPoint.full_label}}" class="form-control" id="label" name="label"
+                                            placeholder="Nhập tên loại địa điểm">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="image">Chọn ảnh:</label>
+                                        <input type="file" class="form-control-file" id="image" name="image"
+                                            accept="image/*">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Preview:</label>
+                                        <div id="preview" class="border p-2 text-center">
+                                            <img src="{{categoryPoint.Icon}}" id="previewImage" class="img-fluid rounded"
+                                                style="height: 200px; object-fit: cover;" alt="Preview">
+                                        </div>
+                                    </div>
+                                    <div id="errorAlert" class="alert alert-danger d-none" role="alert">
+                                        <strong>Thông báo lỗi! </strong>Vui lòng nhập đầy đủ thông tin.
+                                    </div>
+                                    <button class="btn btn-primary btn-lg text-white mb-0 me-0" id="submitBtn"
+                                        type="submit">Cập nhập loại địa điểm</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{>footer}}
+
+    <script>
+        $(document).ready(function () {
+            $('#image').change(function () {
+                var input = this;
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#previewImage').attr('src', e.target.result);
+                        $(input).val(e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            });
+            // Sự kiện khi rời khỏi trường nhập liệu
+            $('#label, #image').change(function () {
+                $('#errorAlert').hide(); // Ẩn thông báo lỗi khi dữ liệu được sửa đổi
+            });
+            $('#updateForm').submit(function (e) {
+                e.preventDefault(); // Ngăn chặn gửi form mặc định
+                var label = $('#label').val();
+                var id = $('#id').val();
+                var imageInput = $('#image')[0].files[0];
+                // Ẩn nút và hiển thị hiệu ứng loading
+                $('#submitBtn').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+                if (!label) {
+                    $('#errorAlert').removeClass('d-none').show(); // Hiển thị thông báo lỗi
+                    $('#submitBtn').prop('disabled', false).html('Update banner');
+                    return false;
+                } 
+                // Tạo một đối tượng FormData và thêm dữ liệu của biểu mẫu vào đó
+                var formData = new FormData();
+                formData.append('label', label);
+                formData.append('image', imageInput);
+                formData.append('id', id);
+                // Gửi yêu cầu AJAX
+                $.ajax({
+                    type: 'POST',
+                    url: '/category-points/'+id, // Địa chỉ gửi yêu cầu POST
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        console.log(response);
+                        swal("Thành công! Loại địa điểm đã được cập nhập!", {
+                                icon: "success",
+                                buttons: {
+                                    cancel: "Cancel",
+                                    pointList: {
+                                        text: "Danh sách loại địa điểm",
+                                        value: "categoryPointList",
+                                    },
+                                },
+                            }).then((value) => {
+                                switch (value) {
+                                    case "categoryPointList":
+                                        window.location.href = "/category-points";
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            });
+                            
+                    },
+                    error: function (xhr, status, error) {
+                        // Xử lý lỗi, có thể làm gì đó nếu cần thiết
+                            swal("Lỗi! Đã có lỗi xảy ra!", {
+                                text: error,
+                                icon: "error",
+                            });
+                    },
+                    complete: function () {
+                        // Khôi phục lại nút và ẩn hiệu ứng loading
+                        $('#submitBtn').prop('disabled', false).html('Thêm loại địa điểm');
+                    }
+                });
+            });
+
+            $('#testBtn').click(function () {
+                swal('{{ message }}', "You clicked the button!", "success");
+            });
+        });
+    </script>
+</div>
