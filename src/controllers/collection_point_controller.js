@@ -50,7 +50,7 @@ class CollectionPointController {
                     point_lat: req.body.lat,
                     point_lng: req.body.lng,
                     address: req.body.address,
-                    label: result.label,
+                    label: result.Label,
                     info: req.body.info,
                     categoryPoints: result.$id,
                 }
@@ -93,7 +93,7 @@ class CollectionPointController {
                     point_lat: req.body.lat,
                     point_lng: req.body.lng,
                     address: req.body.address,
-                    label: result.label,
+                    label: result.Label,
                     info: req.body.info,
                     categoryPoints: result.$id,
                 }
