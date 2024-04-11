@@ -8,7 +8,8 @@ const urencoRouter = require('./urenco_route')
 const angencyRouter = require('./angency_route')
 const blacklistRouter = require('./blacklist_route')
 const feedbackRouter = require('./feedback_route')
-const categoryPointRouter = require('./category_point')
+const categoryPointRouter = require('./category_point_route')
+const informationRouter = require('./information_route')
 const { isLoggedIn, isLoggedSS } = require('../middlewares/login_middleware');
 
 function route(app) {
@@ -23,6 +24,7 @@ function route(app) {
     app.use('/blacklist',isLoggedIn, blacklistRouter);
     app.use('/feedback',isLoggedIn, feedbackRouter);
     app.use('/category-points',isLoggedIn, categoryPointRouter);
+    app.use('/information',isLoggedIn, categoryPointRouter);
     // app.get('/login', function (req, res) {
     //     res.render('auth/login');
     // })
