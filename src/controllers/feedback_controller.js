@@ -1,4 +1,4 @@
-const { client, account,databases} = require('../services/appwrite_client');
+const { client, account, databases } = require('../services/appwrite_client');
 const { users } = require('../services/appwrite_server');
 const sdk = require("node-appwrite");
 // const { v4: uuidv4 } = require('uuid');
@@ -6,15 +6,15 @@ const moment = require('moment');
 
 //view 
 exports.viewFeedback = async (req, res) => {
-    
+
     const view = await databases.listDocuments(process.env.APPWRITE_DB, process.env.APPWRITE_FEEDBACK_COLLECTION,
         [
-           sdk.Query.limit(100),
-           sdk.Query.offset(0)
+            sdk.Query.limit(100),
+            sdk.Query.offset(0)
         ]
     );
     const feedbackData = view.documents.map(doc => ({
-        image:doc.image,
+        image: doc.image,
         phonenumber: doc.phone_number,
         address: doc.address,
         description: doc.description,
@@ -22,7 +22,7 @@ exports.viewFeedback = async (req, res) => {
         id: doc.$id
     }));
 
-    res.render('feedback/index', { title: "Feedback",feedbackData});
+    res.render('feedback/index', { title: "Feedback", feedbackData });
 
 };
 
@@ -32,15 +32,11 @@ exports.viewFeedback = async (req, res) => {
 exports.deleteFeedback = (req, res) => {
     const userId = req.params.id;
     console.log(userId)
-    databases.deleteDocument(process.env.APPWRITE_DB,process.env.APPWRITE_FEEDBACK_COLLECTION , userId).then(result =>{
+    databases.deleteDocument(process.env.APPWRITE_DB, process.env.APPWRITE_FEEDBACK_COLLECTION, userId).then(result => {
         res.redirect('/feedback');
     })
-    .catch(error =>{
-        res.render('/errors/404')
-    })
+        .catch(error => {
+            res.render('/errors/404')
+        })
 
 }
-
-
-
-

@@ -1,4 +1,3 @@
-
 <div class="container custom-form" style="padding-left: 370px; padding-top:50px">
   <div class="row">
     <div class="col-lg-12">
@@ -6,78 +5,84 @@
         <div class="card-body">
           <form id="myForm" enctype="multipart/form-data">
             <h1 style="text-align: center;padding-bottom:20px">Update Collector</h1>
-              <div class="row mb-3">
-                <label for="nameInput" class="col-sm-2 col-form-label">Name:<span style="color: red">*</span></label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="nameInput" value="{{result.name}}" placeholder="Name" name="name">
-                </div>
+            <div class="row mb-3">
+              <label for="nameInput" class="col-sm-2 col-form-label">Name:<span style="color: red">*</span></label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="nameInput" value="{{result.name}}" placeholder="Name"
+                  name="name">
               </div>
-              <div class="row mb-3">
-                <label for="emailInput" class="col-sm-2 col-form-label">Email:<span style="color: red">*</span></label>
-                <div class="col-sm-10">
-                  <input type="email" class="form-control" id="emailInput" value="{{result.email}}" placeholder="example@email.com" name="email" >
-                </div>
+            </div>
+            <div class="row mb-3">
+              <label for="emailInput" class="col-sm-2 col-form-label">Email:<span style="color: red">*</span></label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control" id="emailInput" value="{{result.email}}"
+                  placeholder="example@email.com" name="email">
               </div>
-              <div id="alertMessage" class="alert alert-danger d-none" role="alert">
-                 Please enter your email
+            </div>
+            <div id="alertMessage" class="alert alert-danger d-none" role="alert">
+              Please enter your email
+            </div>
+            <div id="alertMessage4" class="alert alert-danger d-none" role="alert">
+              Email is not in correct format
+            </div>
+            <div class="row mb-3">
+              <label for="phoneInput" class="col-sm-2 col-form-label">Phone:<span style="color: red">*</span></label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="phoneInput" value="{{result.phonenumber}}"
+                  placeholder="Phone number" name="phonenumber">
               </div>
-              <div id="alertMessage4" class="alert alert-danger d-none" role="alert">
-                 Email is not in correct format
-              </div>
-              <div class="row mb-3">
-                <label for="phoneInput" class="col-sm-2 col-form-label">Phone:<span style="color: red">*</span></label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="phoneInput" value="{{result.phonenumber}}" placeholder="Phone number" name="phonenumber">
-                </div>
-              </div>
+            </div>
             <div id="alertMessage6" class="alert alert-danger d-none" role="alert">
-                Please enter your phone number
-            </div> 
-              <div class="row mb-3">
-                <label for="phoneInput" class="col-sm-2 col-form-label">Zalo:<span style="color: red">*</span></label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="zalonumberInput" value="{{result.zalonumber}}" placeholder="Zalo number" name="zalonumber">
-                </div>
+              Please enter your phone number
+            </div>
+            <div class="row mb-3">
+              <label for="phoneInput" class="col-sm-2 col-form-label">Zalo:<span style="color: red">*</span></label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="zalonumberInput" value="{{result.zalonumber}}"
+                  placeholder="Zalo number" name="zalonumber">
               </div>
+            </div>
             <div id="alertMessage7" class="alert alert-danger d-none" role="alert">
-                Please enter your zalo number
-            </div> 
-              <div class="row mb-3">
-                  <label for="bioInput" class="col-sm-2 col-form-label">Address:<span style="color: red">*</span></label>
-                  <div class="col-sm-10">
-                      <input type="text" class="form-control" id="addressInput" value="{{result.address}}" placeholder="" name="address">
-                  </div>
+              Please enter your zalo number
+            </div>
+            <div class="row mb-3">
+              <label for="bioInput" class="col-sm-2 col-form-label">Address:<span style="color: red">*</span></label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="addressInput" value="{{result.address}}" placeholder=""
+                  name="address">
               </div>
-              <div class="row mb-3">
-                <label for="roleInput" class="col-sm-2 col-form-label">Role:</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="roleInput" value="{{result.role}}" placeholder="" name="role" readonly>
-                </div>
+            </div>
+            <div class="row mb-3">
+              <label for="roleInput" class="col-sm-2 col-form-label">Role:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="roleInput" value="{{result.role}}" placeholder=""
+                  name="role" readonly>
               </div>
-               <div class="row mb-3">
-                <label for="subroleSelect" class="col-sm-2 col-form-label">Subrole:</label>
-                <div class="col-sm-10">
-                  <select class="form-select" id="subroleSelect" name="subrole">
-                    <option value="">Choose Subrole</option>
-                    <option value="Urenco">Urenco</option>
-                    <option value="Angency">Angency</option>
-                  </select>
-                </div>
+            </div>
+            <div class="row mb-3">
+              <label for="subroleSelect" class="col-sm-2 col-form-label">Subrole:</label>
+              <div class="col-sm-10">
+                <select class="form-select" id="subroleSelect" name="subrole">
+                  <option value="">Choose Subrole</option>
+                  <option value="Urenco">Urenco</option>
+                  <option value="Angency">Angency</option>
+                </select>
               </div>
+            </div>
 
             <div id="successMessage" class="alert alert-success d-none" role="alert">
-                  Updated successfully!
+              Updated successfully!
             </div>
             <div id="alertMessage5" class="alert alert-danger d-none" role="alert">
-                Please enter the complete information field
-            </div>               
-              <!-- New row for the submit button -->
-              <div class="row">
-                <div class="col-sm-10 offset-sm-2" style="padding-left:140px;"> <!-- Offset to center the button -->
-                  <button class="btn btn-success" type="submit" onclick="validateForm()">Comfirm</button>
-                  <a href="/collectors" class="btn btn-light">Cancel</a>
-                </div>
+              Please enter the complete information field
+            </div>
+            <!-- New row for the submit button -->
+            <div class="row">
+              <div class="col-sm-10 offset-sm-2" style="padding-left:140px;"> <!-- Offset to center the button -->
+                <button class="btn btn-success" type="submit" onclick="validateForm()">Comfirm</button>
+                <a href="/collectors" class="btn btn-light">Cancel</a>
               </div>
+            </div>
           </form>
         </div>
       </div>
@@ -93,24 +98,24 @@
     var email = document.getElementById("emailInput").value;
     var phonenumber = document.getElementById("phoneInput").value; // Thêm dòng này
     var zalonumber = document.getElementById("zalonumberInput").value;
-    var address = document.getElementById("addressInput").value; 
+    var address = document.getElementById("addressInput").value;
 
     // check email xem có hợp lệ hay không
     if (email === "") {
-        // Nếu chỉ email rỗng, hiển thị thông báo lỗi cho email
-        document.getElementById("alertMessage").classList.remove('d-none');
-        event.preventDefault(); 
-        return false;
-    }else {
-        // Nếu không rỗng, ẩn các thông báo lỗi và tiếp tục với việc gửi biểu mẫu
-        document.getElementById("alertMessage").classList.add('d-none');
+      // Nếu chỉ email rỗng, hiển thị thông báo lỗi cho email
+      document.getElementById("alertMessage").classList.remove('d-none');
+      event.preventDefault();
+      return false;
+    } else {
+      // Nếu không rỗng, ẩn các thông báo lỗi và tiếp tục với việc gửi biểu mẫu
+      document.getElementById("alertMessage").classList.add('d-none');
     }
 
     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       // Nếu email không đúng định dạng, hiển thị thông báo lỗi
       document.getElementById("alertMessage4").classList.remove('d-none');
-      event.preventDefault(); 
+      event.preventDefault();
       return false;
     } else {
       // Nếu email hợp lệ, ẩn thông báo lỗi cho email
@@ -121,7 +126,7 @@
     var phoneRegex = /^0\d{9}$/;
     if (!phoneRegex.test(phonenumber)) {
       document.getElementById("alertMessage6").classList.remove('d-none');
-      event.preventDefault(); 
+      event.preventDefault();
       return false;
     } else {
       document.getElementById("alertMessage6").classList.add('d-none');
@@ -131,28 +136,24 @@
     var zaloRegex = /^0\d{9}$/;
     if (!zaloRegex.test(zalonumber)) {
       document.getElementById("alertMessage7").classList.remove('d-none');
-      event.preventDefault(); 
+      event.preventDefault();
       return false;
     } else {
       document.getElementById("alertMessage7").classList.add('d-none');
     }
 
 
-      // check điều kiện
-    if(name === "" || address === "" || phonenumber === "" || zalonumber === ""){
-        document.getElementById("alertMessage5").classList.remove('d-none');
-        event.preventDefault(); 
-        return false;
+    // check điều kiện
+    if (name === "" || address === "" || phonenumber === "" || zalonumber === "") {
+      document.getElementById("alertMessage5").classList.remove('d-none');
+      event.preventDefault();
+      return false;
     }
-    else{
-        document.getElementById("alertMessage5").classList.add('d-none');
+    else {
+      document.getElementById("alertMessage5").classList.add('d-none');
     }
 
     document.getElementById("successMessage").classList.remove('d-none');
     document.getElementById("myForm").submit();
   }
 </script>
-
-
-
-
