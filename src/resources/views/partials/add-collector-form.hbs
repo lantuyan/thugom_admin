@@ -150,6 +150,16 @@
         document.getElementById("alertMessage").classList.add('d-none');
         document.getElementById("alertMessage2").classList.add('d-none');
     }
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      // Nếu email không đúng định dạng, hiển thị thông báo lỗi
+      document.getElementById("alertMessage4").classList.remove('d-none');
+      event.preventDefault(); 
+      return false;
+    } else {
+      // Nếu email hợp lệ, ẩn thông báo lỗi cho email
+      document.getElementById("alertMessage4").classList.add('d-none');
+    }
 
     document.getElementById("successMessage").classList.remove('d-none');
     document.getElementById("myForm").submit();
