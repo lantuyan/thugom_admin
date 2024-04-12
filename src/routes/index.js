@@ -24,7 +24,7 @@ function route(app) {
     app.use('/blacklist',isLoggedIn, blacklistRouter);
     app.use('/feedback',isLoggedIn, feedbackRouter);
     app.use('/category-points',isLoggedIn, categoryPointRouter);
-    app.use('/information',isLoggedIn, categoryPointRouter);
+    app.use('/information',isLoggedIn, informationRouter);
     // app.get('/login', function (req, res) {
     //     res.render('auth/login');
     // })
