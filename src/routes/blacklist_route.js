@@ -3,9 +3,8 @@ const blacklist = require("../controllers/blacklist_controller");
 const router = express.Router();
 
 router.get('/', blacklist.viewBlacklist);
-router.get('/:id', blacklist.editBlacklist);
-router.post('/:id', blacklist.updateBlacklist);
 
 router.get('/delete/:id', blacklist.deleteBlacklist);
+router.get('/unban/:id', blacklist.updateBlacklist);
 
 module.exports = router;

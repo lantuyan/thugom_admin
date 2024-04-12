@@ -1,4 +1,4 @@
-<div class="container custom-form" style="padding-left: 400px; padding-top:50px">
+<div class="container custom-form" style="padding-left: 370px; padding-top:50px">
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
@@ -6,25 +6,19 @@
           <form id="myForm" enctype="multipart/form-data">
           <h1 style="text-align: center;padding-bottom:20px">Add Collector</h1>
               <div class="row mb-3">
-                <label for="nameInput" class="col-sm-3 col-form-label">Name:</label>
+                <label for="nameInput" class="col-sm-2 col-form-label">Name:</label>
                 <div class="col-sm-9">
                   <input type="text" class="form-control" id="nameInput" value="{{this.name}}" placeholder="Name" name="name">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="nameInput" class="col-sm-3 col-form-label">User name:</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="nameInput" value="{{this.username}}" placeholder="User name" name="username">
-                </div>
-              </div>
-              <div class="row mb-3">
-                <label for="emailInput" class="col-sm-3 col-form-label">Email:</label>
+                <label for="emailInput" class="col-sm-2 col-form-label">Email:</label>
                 <div class="col-sm-9">
                   <input type="email" class="form-control" id="emailInput" value="{{this.email}}" placeholder="example@email.com" name="email">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="passwordInput" class="col-sm-3 col-form-label">Password:</label>
+                <label for="passwordInput" class="col-sm-2 col-form-label">Password:</label>
                 <div class="col-sm-9 input-group">
                   <input type="password" class="form-control" id="passwordInput" value="{{this.password}}" placeholder="" name="password">
                   <button class="btn btn-outline-secondary" type="button" id="togglePassword" onclick="togglePassword()">
@@ -33,36 +27,41 @@
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="phoneInput" class="col-sm-3 col-form-label">Phone:</label>
+                <label for="phoneInput" class="col-sm-2 col-form-label">Phone:</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="phoneInput" value="{{this.phonenumber}}" placeholder="(+84)" name="phonenumber">
-                  <small id="phoneHelp" class="form-text text-muted">Please enter your phone number with country code +84.</small>
+                  <input type="text" class="form-control" id="phoneInput" value="{{this.phonenumber}}" placeholder="Phone number" name="phonenumber">
+          
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="phoneInput" class="col-sm-3 col-form-label">Zalo Phone:</label>
+                <label for="phoneInput" class="col-sm-2 col-form-label">Zalo:</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="zalonumberInput" value="{{this.zalonumber}}" placeholder="(+84)" name="zalonumber">
-                  <small id="phoneHelp" class="form-text text-muted">Please enter your phone number with country code +84.</small>
+                  <input type="text" class="form-control" id="zalonumberInput" value="{{this.zalonumber}}" placeholder="Zalo Number" name="zalonumber">
+
                 </div>
               </div>
 
               <div class="row mb-3">
-                <label for="bioInput" class="col-sm-3 col-form-label">Address:</label>
+                <label for="bioInput" class="col-sm-2 col-form-label">Address:</label>
                 <div class="col-sm-9">
                   <input type="text" class="form-control" id="addressInput" value="{{this.address}}" placeholder="" name="address">
                 </div>
               </div>
+
               <div class="row mb-3">
-                <label for="bioInput" class="col-sm-3 col-form-label">Subrole:</label>
+                <label for="subroleSelect" class="col-sm-2 col-form-label">Subrole:</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="bioInput" value="{{this.subrole}}" placeholder="" name="subrole">
+                  <select class="form-select" id="subroleSelect" name="subrole">
+                    <option value="">Choose Subrole</option>
+                    <option value="Urenco">Urenco</option>
+                    <option value="Angency">Angency</option>
+                  </select>
                 </div>
               </div>
               
               <!-- New row for the submit button -->
               <div class="row">
-                <div class="col-sm-10 offset-sm-2" style="padding-left:80px;"> <!-- Offset to center the button -->
+                <div class="col-sm-10 offset-sm-2" style="padding-left:140px;"> <!-- Offset to center the button -->
                   <button class="btn btn-success" type="submit" onclick="validateForm()">Comfirm</button>
                   <a href="/users" class="btn btn-light">Cancel</a>
                 </div>
@@ -97,11 +96,9 @@
     var phonenumber = document.getElementById("phoneInput").value; // Thêm dòng này
     var zalonumber = document.getElementById("zalonumberInput").value; // Thêm dòng này
 
-    // Regular expression to check if phone starts with +84
-    var phoneRegex = /^\+84\d{9,10}$/;
 
-    if (name === "" || email === "" || password === "") {
-      alert("Please fill out all required fields: Name, Email, and Password.");
+    if (email === "" || password === "") {
+      alert("Please fill out all required fields:Email, and Password.");
       return false; // Prevent form submission
     }
 
@@ -109,35 +106,28 @@
       alert("Password must be between 8 and 24 characters long.");
       return false; // Prevent form submission
     }
+    document.getElementById("subroleSelect").addEventListener("change", function() {
+      var selectedSubrole = document.getElementById("subroleSelect").value;
+      this.subrole = selectedSubrole;
+    });
 
-    if (phone !== "") {
-      if (!phone.match(phoneRegex)) {
-        alert("Please enter a valid phone number starting with +84.");
-        return false; // Prevent form submission
+    document.getElementById("nameInput").addEventListener("blur", function() {
+      var nameInput = document.getElementById("nameInput");
+      if (nameInput.value.trim() === "") {
+        nameInput.value = ""; // Nếu trống, gán giá trị mặc định là rỗng
       }
-    }
-    if (phonenumber !== "") { // Sửa thành phonenumber
-      if (!phonenumber.match(phoneRegex)) {
-        alert("Please enter a valid phone number starting with +84.");
-        return false; // Prevent form submission
-      }
-    }
-    if (zalonumber !== "") { // Sửa thành zalonumber
-      if (!zalonumber.match(phoneRegex)) {
-        alert("Please enter a valid phone number starting with +84.");
-        return false; // Prevent form submission
-      }
-    }
-    
+    });
+
+    document.getElementById("phoneInput").addEventListener("input", function() {
+      // Loại bỏ tất cả các ký tự không phải số
+      this.value = this.value.replace(/\D/g, '');
+    });
+
+    document.getElementById("zalonumberInput").addEventListener("input", function() {
+      // Loại bỏ tất cả các ký tự không phải số
+      this.value = this.value.replace(/\D/g, '');
+    });
     // If all fields are filled and phone number is valid, you can proceed with form submission
     document.getElementById("myForm").submit();
   }
 </script>
-
-
-
-
-
-
-
-

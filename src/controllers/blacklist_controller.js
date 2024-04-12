@@ -9,7 +9,6 @@ exports.viewBlacklist= async (req, res) => {
         sdk.Query.offset(0)
     ]);
     const blacklistData = view.documents.filter(doc => doc.role === 'blacklist').map(doc => ({
-        username: doc.username,
         email: doc.email,
         role: doc.role,
         phonenumber: doc.phonenumber,
@@ -35,7 +34,7 @@ exports.deleteBlacklist = (req, res) => {
     });
 }
 
-
+/*
 // Edit
 exports.editBlacklist = (req, res) => {
     const userId = req.params.id;
@@ -48,11 +47,12 @@ exports.editBlacklist = (req, res) => {
         res.redirect('/blacklist');
     });
 };
+*/
 
 
 exports.updateBlacklist = (req, res) => {
     const userId = req.params.id; 
-    const { name, email, phonenumber,zalonumber,address,username,role} = req.body;
+    const { name, email, phonenumber,zalonumber,address,role} = req.body;
 
     databases.updateDocument(process.env.APPWRITE_DB,process.env.APPWRITE_USER_COLLECTION, userId, 
     {
@@ -60,21 +60,16 @@ exports.updateBlacklist = (req, res) => {
         email:email,
         phonenumber:phonenumber,
         zalonumber: zalonumber,
-        username:username,
         address:address,
-        role:role
+        role:"person"
         
     })
     .then(response_update => {
-        res.render('blacklist/edit_blacklist',{ alert: 'User update successfully.' });
+        res.redirect('/blacklist',{ alert: 'User update successfully.' });
       }).catch(error => {
         console.error('Error updat user:', error);
         res.redirect('/blacklist');
     });
-    users.updateEmail(userId, email);
-    users.updateName(userId, name);
-
-
 
 }
 
