@@ -31,7 +31,7 @@
                                         <tr>
                                             <td>{{phonenumber }}</td>
                                             <td>{{address }}</td>
-                                            <td><img src="{{image}}" class="feedback-image" data-link="{{image}}"></td>
+                                            <td><img src="{{image}}" class="feedback-image" data-link="{{image}} "></td>
                                             <td>{{description }}</td>
                                             <td>{{createAt}}</td>
                                             <td>                                    
@@ -58,9 +58,9 @@
         new DataTable('#example');
 
         // Xử lý sự kiện click cho các ảnh
-            $('.feedback-image').click(function() {
-                var link = $(this).data('link'); // Lấy đường dẫn từ thuộc tính data-link
-                window.location.href = link; // Chuyển hướng đến đường dẫn khi click vào ảnh
-            });
+        $('.feedback-image').click(function() {
+            var link = $(this).data('link'); // Lấy đường dẫn từ thuộc tính data-link
+            window.open(link, '_blank'); // Mở liên kết trong một tab hoặc cửa sổ mới
+        });
     });
 </script>
