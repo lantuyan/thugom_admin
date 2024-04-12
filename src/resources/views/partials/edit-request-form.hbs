@@ -6,32 +6,35 @@
           <form id="myForm" enctype="multipart/form-data">
           <h1 style="text-align: center;padding-bottom:20px">Update Request</h1>
               <div class="row mb-3">
-                <label for="phoneInput" class="col-sm-3 col-form-label">Phone:</label>
+                <label for="phoneInput" class="col-sm-3 col-form-label">Phone:<span style="color: red">*</span></label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="phoneInput" value="{{result.phone_number}}" placeholder="(+84)" name="phonenumber">
+                  <input type="text" class="form-control" id="phoneInput" value="{{result.phone_number}}" placeholder="Phone number" name="phonenumber">
                 </div>
               </div>
+              <div id="alertMessage6" class="alert alert-danger d-none" role="alert">
+                Please enter your phone number
+              </div> 
               <div class="row mb-3">
-                <label for="addressInput" class="col-sm-3 col-form-label">Address:</label>
+                <label for="addressInput" class="col-sm-3 col-form-label">Address:<span style="color: red">*</span></label>
                 <div class="col-sm-9">
                   <input type="text" class="form-control" id="addressInput" value="{{result.address}}" placeholder="" name="address">
                 </div>
               </div>
 
               <div class="row mb-3">
-                <label for="descriptionInput" class="col-sm-3 col-form-label">Describe</label>
+                <label for="descriptionInput" class="col-sm-3 col-form-label">Describe:<span style="color: red">*</span></label>
                 <div class="col-sm-9">
                   <input type="text" class="form-control" id="descriptionInput" value="{{result.description}}" placeholder="" name="description">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="descriptionInput" class="col-sm-3 col-form-label" >Status</label>
+                <label for="descriptionInput" class="col-sm-3 col-form-label" >Status:</label>
                 <div class="col-sm-9">
                   <input type="text" class="form-control" id="statusInput" value="{{result.status}}" placeholder="" name="status" readonly>
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="descriptionInput" class="col-sm-3 col-form-label">Trash type</label>
+                <label for="descriptionInput" class="col-sm-3 col-form-label">Trash type:</label>
                 <div class="col-sm-9">
                   <select class="form-select" id="trashtypeSelect" name="trashtype" >
                     <option value="">Choose Trash Type</option>
@@ -44,19 +47,22 @@
               </div>
 
               <div class="row mb-3">
-                <label for="descriptionInput" class="col-sm-3 col-form-label">Price</label>
+                <label for="descriptionInput" class="col-sm-3 col-form-label">Price:</label>
                 <div class="col-sm-9">
                   <input type="text" class="form-control" id="priceInput" value="{{result.collection_price}}" placeholder="" name="price">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="descriptionInput" class="col-sm-3 col-form-label">Amount</label>
+                <label for="descriptionInput" class="col-sm-3 col-form-label">Amount:</label>
                 <div class="col-sm-9">
                   <input type="text" class="form-control" id="amountInput" value="{{result.amount_collected}}" placeholder="" name="amount">
                 </div>
               </div>
               <div id="successMessage" class="alert alert-success d-none" role="alert">
                   Updated successfully!
+              </div>
+              <div id="alertMessage5" class="alert alert-danger d-none" role="alert">
+                  Please enter the complete information field
               </div>
               <!-- New row for the submit button -->
               <div class="row">
@@ -73,27 +79,38 @@
 </div>
 <script>
   function validateForm() {
-    var phone = document.getElementById("phoneInput").value;
-    document.getElementById("phoneInput").addEventListener("input", function() {
-      // Loại bỏ tất cả các ký tự không phải số
-      this.value = this.value.replace(/\D/g, '');
-    });
-    document.addEventListener("DOMContentLoaded", function() {
-      var trashtypeSelect = document.getElementById("trashtypeSelect");
-      var resultTrashtype = {{result.trash_type}}; // Lấy giá trị subrole từ biến result trong template
+    var phonenumber = document.getElementById("phoneInput").value; 
+    var address = document.getElementById("addressInput").value; 
+    var description = document.getElementById("descriptionInput").value;
 
-      // Loop qua tất cả các option của select và đặt selected cho option có giá trị trùng với result.subrole
-        for (var i = 0; i < resultTrashtype.options.length; i++) {
-            if (resultTrashtype.options[i].value === resultTrashtype) {
-                resultTrashtype.options[i].selected = true;
-                break;
-            }
-        }
-    });
+    var phoneRegex = /^0\d{9}$/;
+    if (!phoneRegex.test(phonenumber)) {
+      document.getElementById("alertMessage6").classList.remove('d-none');
+      event.preventDefault(); 
+      return false;
+    } else {
+      document.getElementById("alertMessage6").classList.add('d-none');
+    }
 
+    if(address === "" || phonenumber === "" || description === ""){
+        document.getElementById("alertMessage5").classList.remove('d-none');
+        event.preventDefault(); 
+        return false;
+    }
+    else{
+        document.getElementById("alertMessage5").classList.add('d-none');
+    }
+    
+    document.getElementById("trashtypeSelect").addEventListener("change", function() {
+      var selectedTrashtype= document.getElementById("trashtypeSelect").value;
+      result.trash_type = selectedTrashtype;
+    });
+    
+    
     document.getElementById("successMessage").classList.remove('d-none');
     // If everything is valid, you can proceed with form submission
     document.getElementById("myForm").submit();
+
   }
 </script>
 
