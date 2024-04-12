@@ -9,7 +9,6 @@ exports.viewUrenco= async (req, res) => {
         sdk.Query.offset(0)
     ]);
     const urencoData = view.documents.filter(doc => doc.role === 'collector' && doc.subrole ==='Urenco').map(doc => ({
-        username: doc.username,
         email: doc.email,
         role: doc.role,
         subrole: doc.subrole,
@@ -29,7 +28,6 @@ exports.viewAngency= async (req, res) => {
         sdk.Query.offset(0)
     ]);
     const angencyData = view.documents.filter(doc => doc.role === 'collector' && doc.subrole ==='Angency').map(doc => ({
-        username: doc.username,
         email: doc.email,
         role: doc.role,
         subrole:doc.subrole,

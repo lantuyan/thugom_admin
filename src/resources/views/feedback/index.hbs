@@ -31,11 +31,11 @@
                                         <tr>
                                             <td>{{phonenumber }}</td>
                                             <td>{{address }}</td>
-                                            <td><img src="{{image}}" alt="Feedback Image" class="feedback-image" style="max-width: 100px;"></td>
+                                            <td><img src="{{image}}" class="feedback-image" data-link="{{image}} "></td>
                                             <td>{{description }}</td>
                                             <td>{{createAt}}</td>
                                             <td>                                    
-                                                <a href="/requests/delete/{{id}}" class="btn btn-danger btn-sm" title="Delete user" onclick="return confirm('Are you sure you want to delete this user?')"><i class="bi bi-person-x"></i> Delete</a>
+                                                <a href="/requests/delete/{{id}}" class="btn btn-danger btn-sm" title="Delete user" onclick="return confirm('Are you sure you want to delete this user?')"><i class="bi bi-trash"></i> </a>
                                             </td>
                                         </tr>
                                         {{/each}}
@@ -59,35 +59,8 @@
 
         // Xử lý sự kiện click cho các ảnh
         $('.feedback-image').click(function() {
-            $(this).toggleClass('enlarged'); // Thêm hoặc xóa lớp 'enlarged'
+            var link = $(this).data('link'); // Lấy đường dẫn từ thuộc tính data-link
+            window.open(link, '_blank'); // Mở liên kết trong một tab hoặc cửa sổ mới
         });
     });
 </script>
-
-<style>
-    .enlarged {
-        max-width: none !important; /* Bỏ giới hạn kích thước */
-        width: auto;
-        height: auto;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        margin: auto;
-        z-index: 9999;
-        background-color: rgba(0,0,0,0.8);
-    }
-
-    .enlarged img {
-        max-width: 90%; /* Giữ kích thước tối đa */
-        max-height: 90%;
-        display: block;
-        margin: auto;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-    }
-</style>

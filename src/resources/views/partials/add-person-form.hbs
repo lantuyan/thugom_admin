@@ -1,4 +1,4 @@
-<div class="container custom-form" style="padding-left: 400px; padding-top:50px">
+<div class="container custom-form" style="padding-left: 370px; padding-top:50px">
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
@@ -6,44 +6,49 @@
           <form id="myForm" enctype="multipart/form-data">
           <h1 style="text-align: center;padding-bottom:20px">Add Person</h1>
               <div class="row mb-3">
-                <label for="nameInput" class="col-sm-3 col-form-label">Name:</label>
+                <label for="nameInput" class="col-sm-3 col-form-label" >Name:</label>
                 <div class="col-sm-9">
                   <input type="text" class="form-control" id="nameInput" value="{{this.name}}" placeholder="Name" name="name">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="nameInput" class="col-sm-3 col-form-label">User name:</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="nameInput" value="{{this.username}}" placeholder="User name" name="username">
-                </div>
-              </div>
-              <div class="row mb-3">
-                <label for="emailInput" class="col-sm-3 col-form-label">Email:</label>
+                <label for="emailInput" class="col-sm-3 col-form-label">Email:<span style="color: red">*</span></label>
                 <div class="col-sm-9">
                   <input type="email" class="form-control" id="emailInput" value="{{this.email}}" placeholder="example@email.com" name="email">
                 </div>
               </div>
+              <div id="alertMessage" class="alert alert-danger d-none" role="alert">
+                 Please enter your email
+              </div>
+              <div id="alertMessage4" class="alert alert-danger d-none" role="alert">
+                 Email is not in correct format
+              </div>
               <div class="row mb-3">
-                <label for="passwordInput" class="col-sm-3 col-form-label">Password:</label>
-                <div class="col-sm-9 input-group">
-                  <input type="password" class="form-control" id="passwordInput" value="{{this.password}}" placeholder="" name="password">
-                  <button class="btn btn-outline-secondary" type="button" id="togglePassword" onclick="togglePassword()">
-                    <i class="bi bi-eye"></i>
-                  </button>
-                </div>
+                  <label for="passwordInput" class="col-sm-3 col-form-label">Password:<span style="color: red">*</span></label>
+                  <div class="col-sm-9 input-group">
+                      <input type="password" class="form-control" id="passwordInput" value="{{this.password}}" placeholder="" name="password">
+                      <button class="btn btn-outline-secondary" type="button">
+                          <i class="bi bi-eye" id="togglePassword" onclick="togglePassword()" ></i>
+                      </button>
+                  </div>
+              </div>
+              <div id="alertMessage2" class="alert alert-danger d-none" role="alert">
+                 Please enter your Password
+              </div>
+              <div id="alertMessage3" class="alert alert-danger d-none" role="alert">
+                Password must be between 8 and 24 characters long.
               </div>
               <div class="row mb-3">
                 <label for="phoneInput" class="col-sm-3 col-form-label">Phone:</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="phoneInput" value="{{this.phonenumber}}" placeholder="(+84)" name="phonenumber">
-                  <small id="phoneHelp" class="form-text text-muted">Please enter your phone number with country code +84.</small>
+                  <input type="text" class="form-control" id="phoneInput" value="{{this.phonenumber}}" placeholder="Phone number" name="phonenumber">
+
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="phoneInput" class="col-sm-3 col-form-label">Zalo Phone:</label>
+                <label for="phoneInput" class="col-sm-3 col-form-label">Zalo:</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="zalonumberInput" value="{{this.zalonumber}}" placeholder="(+84)" name="zalonumber">
-                  <small id="phoneHelp" class="form-text text-muted">Please enter your phone number with country code +84.</small>
+                  <input type="text" class="form-control" id="zalonumberInput" value="{{this.zalonumber}}" placeholder="Zalo number" name="zalonumber">
                 </div>
               </div>
 
@@ -53,10 +58,13 @@
                   <input type="text" class="form-control" id="bioInput" value="{{this.address}}" placeholder="" name="address">
                 </div>
               </div>
+              <div id="successMessage" class="alert alert-success d-none" role="alert">
+                  User added successfully!
+              </div>
               
               <!-- New row for the submit button -->
               <div class="row">
-                <div class="col-sm-10 offset-sm-2" style="padding-left:80px;"> <!-- Offset to center the button -->
+                <div class="col-sm-10 offset-sm-2" style="padding-left:140px;"> <!-- Offset to center the button -->
                   <button class="btn btn-success" type="submit" onclick="validateForm()">Comfirm</button>
                   <a href="/users" class="btn btn-light">Cancel</a>
                 </div>
@@ -71,16 +79,12 @@
   <!-- Bootstrap Bundle with Popper -->
 <script>
   function togglePassword() {
-    var passwordInput = document.getElementById("passwordInput");
-    var toggleButton = document.getElementById("togglePassword");
-
-    if (passwordInput.type === "password") {
-      passwordInput.type = "text";
-      toggleButton.innerHTML = '<i class="bi bi-eye-slash"></i>';
-    } else {
-      passwordInput.type = "password";
-      toggleButton.innerHTML = '<i class="bi bi-eye"></i>';
-    }
+      var x = document.getElementById("passwordInput");
+      if (x.type === "password") {
+          x.type = "text";
+      } else {
+          x.type = "password";
+      }
   }
 
   function validateForm() {
@@ -91,47 +95,41 @@
     var phonenumber = document.getElementById("phoneInput").value; // Thêm dòng này
     var zalonumber = document.getElementById("zalonumberInput").value; // Thêm dòng này
 
-    // Regular expression to check if phone starts with +84
-    var phoneRegex = /^\+84\d{9,10}$/;
+    document.getElementById("phoneInput").addEventListener("input", function() {
+      // Loại bỏ tất cả các ký tự không phải số
+      this.value = this.value.replace(/\D/g, '');
+    });
 
-    if (name === "" || email === "" || password === "") {
-      alert("Please fill out all required fields: Name, Email, and Password.");
-      return false; // Prevent form submission
+    document.getElementById("zalonumberInput").addEventListener("input", function() {
+      // Loại bỏ tất cả các ký tự không phải số
+      this.value = this.value.replace(/\D/g, '');
+    });
+    if (email === "" && password === "") {
+        // Nếu cả hai đều rỗng, hiển thị thông báo lỗi cho cả hai
+        document.getElementById("alertMessage").classList.remove('d-none');
+        document.getElementById("alertMessage2").classList.remove('d-none');
+        event.preventDefault(); 
+        return false;
+    } else if (email === "") {
+        // Nếu chỉ email rỗng, hiển thị thông báo lỗi cho email
+        document.getElementById("alertMessage").classList.remove('d-none');
+        event.preventDefault(); 
+        return false;
+    } else if (password === "") {
+        // Nếu chỉ password rỗng, hiển thị thông báo lỗi cho password
+        document.getElementById("alertMessage2").classList.remove('d-none');
+        event.preventDefault(); 
+        return false;
+    } else {
+        // Nếu cả hai không rỗng, ẩn các thông báo lỗi và tiếp tục với việc gửi biểu mẫu
+        document.getElementById("alertMessage").classList.add('d-none');
+        document.getElementById("alertMessage2").classList.add('d-none');
     }
 
-    if (password.length < 8 || password.length > 24) {
-      alert("Password must be between 8 and 24 characters long.");
-      return false; // Prevent form submission
-    }
+    document.getElementById("successMessage").classList.remove('d-none');
+    document.getElementById("myForm").submit();
 
-    if (phone !== "") {
-      if (!phone.match(phoneRegex)) {
-        alert("Please enter a valid phone number starting with +84.");
-        return false; // Prevent form submission
-      }
-    }
-    if (phonenumber !== "") { // Sửa thành phonenumber
-      if (!phonenumber.match(phoneRegex)) {
-        alert("Please enter a valid phone number starting with +84.");
-        return false; // Prevent form submission
-      }
-    }
-    if (zalonumber !== "") { // Sửa thành zalonumber
-      if (!zalonumber.match(phoneRegex)) {
-        alert("Please enter a valid phone number starting with +84.");
-        return false; // Prevent form submission
-      }
-    }
     
     // If all fields are filled and phone number is valid, you can proceed with form submission
-    document.getElementById("myForm").submit();
   }
 </script>
-
-
-
-
-
-
-
-

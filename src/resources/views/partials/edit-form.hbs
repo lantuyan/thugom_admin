@@ -1,5 +1,5 @@
 
-<div class="container custom-form" style="padding-left: 400px; padding-top:50px">
+<div class="container custom-form" style="padding-left: 370px; padding-top:50px">
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
@@ -7,61 +7,61 @@
           <form id="myForm" enctype="multipart/form-data">
             <h1 style="text-align: center;padding-bottom:20px">Update User</h1>
               <div class="row mb-3">
-                <label for="nameInput" class="col-sm-3 col-form-label">Name:</label>
-                <div class="col-sm-9">
+                <label for="nameInput" class="col-sm-2 col-form-label">Name:</label>
+                <div class="col-sm-10">
                   <input type="text" class="form-control" id="nameInput" value="{{result.name}}" placeholder="Name" name="name">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="nameInput" class="col-sm-3 col-form-label">User name:</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="nameInput" value="{{result.username}}" placeholder="User name" name="username">
+                <label for="emailInput" class="col-sm-2 col-form-label">Email:</label>
+                <div class="col-sm-10">
+                  <input type="email" class="form-control" id="emailInput" value="{{result.email}}" placeholder="example@email.com" name="email" readonly>
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="emailInput" class="col-sm-3 col-form-label">Email:</label>
-                <div class="col-sm-9">
-                  <input type="email" class="form-control" id="emailInput" value="{{result.email}}" placeholder="example@email.com" name="email">
+                <label for="phoneInput" class="col-sm-2 col-form-label">Phone:</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="phoneInput" value="{{result.phonenumber}}" placeholder="Phone number" name="phonenumber">
+
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="phoneInput" class="col-sm-3 col-form-label">Phone:</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="phoneInput" value="{{result.phonenumber}}" placeholder="(+84)" name="phonenumber">
-                  <small id="phoneHelp" class="form-text text-muted">Please enter your phone number with country code +84.</small>
+                <label for="phoneInput" class="col-sm-2 col-form-label">Zalo:</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="zalonumberInput" value="{{result.zalonumber}}" placeholder="Zalo number" name="zalonumber">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="phoneInput" class="col-sm-3 col-form-label">Zalo Phone:</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="zalonumberInput" value="{{result.zalonumber}}" placeholder="(+84)" name="zalonumber">
-                  <small id="phoneHelp" class="form-text text-muted">Please enter your phone number with country code +84.</small>
-                </div>
-              </div>
-              <div class="row mb-3">
-                  <label for="bioInput" class="col-sm-3 col-form-label">Address:</label>
-                  <div class="col-sm-9">
+                  <label for="bioInput" class="col-sm-2 col-form-label">Address:</label>
+                  <div class="col-sm-10">
                       <input type="text" class="form-control" id="bioInput" value="{{result.address}}" placeholder="" name="address">
                   </div>
               </div>
-               <div class="row mb-3">
-                <label for="bioInput" class="col-sm-3 col-form-label">Role:</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="roleInput" value="{{result.role}}" placeholder="" name="role">
+              <div class="row mb-3">
+                <label for="roleInput" class="col-sm-2 col-form-label">Role:</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="roleInput" value="{{result.role}}" placeholder="" name="role" readonly>
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="bioInput" class="col-sm-3 col-form-label">Subrole:</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="bioInput" value="{{result.subrole}}" placeholder="" name="subrole">
+                <label for="subroleSelect" class="col-sm-2 col-form-label">Subrole:</label>
+                <div class="col-sm-10">
+                  <select class="form-select" id="subroleSelect" name="subrole">
+                    <option value="">Choose Subrole</option>
+                    <option value="Urenco">Urenco</option>
+                    <option value="Angency">Angency</option>
+                  </select>
                 </div>
               </div>
+            </div>
+            <div id="successMessage" class="alert alert-success d-none" role="alert">
+                  User added successfully!
             </div>
                            
 
               <!-- New row for the submit button -->
               <div class="row">
-                <div class="col-sm-10 offset-sm-2" style="padding-left:80px;"> <!-- Offset to center the button -->
+                <div class="col-sm-10 offset-sm-2" style="padding-left:140px;"> <!-- Offset to center the button -->
                   <button class="btn btn-success" type="submit" onclick="validateForm()">Comfirm</button>
                   <a href="/users" class="btn btn-light">Cancel</a>
                 </div>
@@ -74,7 +74,55 @@
 </div>
 
 
-  <!-- Bootstrap Bundle with Popper -->
+<script>
+
+
+  function validateForm() {
+    var name = document.getElementById("nameInput").value;
+    var email = document.getElementById("emailInput").value;
+    var phone = document.getElementById("phoneInput").value;
+    var phonenumber = document.getElementById("phoneInput").value; // Thêm dòng này
+    var zalonumber = document.getElementById("zalonumberInput").value;
+    
+
+    document.getElementById("subroleSelect").addEventListener("change", function() {
+      var selectedSubrole = document.getElementById("subroleSelect").value;
+      result.subrole = selectedSubrole;
+    });
+
+    document.getElementById("nameInput").addEventListener("blur", function() {
+      var nameInput = document.getElementById("nameInput");
+      if (nameInput.value.trim() === "") {
+        nameInput.value = ""; // Nếu trống, gán giá trị mặc định là rỗng
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+    var subroleSelect = document.getElementById("subroleSelect");
+    var resultSubrole = {{result.subrole}}; // Lấy giá trị subrole từ biến result trong template
+
+    // Loop qua tất cả các option của select và đặt selected cho option có giá trị trùng với result.subrole
+      for (var i = 0; i < subroleSelect.options.length; i++) {
+          if (subroleSelect.options[i].value === resultSubrole) {
+              subroleSelect.options[i].selected = true;
+              break;
+          }
+      }
+    });
+
+    document.getElementById("phoneInput").addEventListener("input", function() {
+      // Loại bỏ tất cả các ký tự không phải số
+      this.value = this.value.replace(/\D/g, '');
+    });
+
+    document.getElementById("zalonumberInput").addEventListener("input", function() {
+      // Loại bỏ tất cả các ký tự không phải số
+      this.value = this.value.replace(/\D/g, '');
+    });
+    document.getElementById("successMessage").classList.remove('d-none');
+    document.getElementById("myForm").submit();
+  }
+</script>
 
 
 

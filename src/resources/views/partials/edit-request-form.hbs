@@ -9,7 +9,6 @@
                 <label for="phoneInput" class="col-sm-3 col-form-label">Phone:</label>
                 <div class="col-sm-9">
                   <input type="text" class="form-control" id="phoneInput" value="{{result.phone_number}}" placeholder="(+84)" name="phonenumber">
-                  <small id="phoneHelp" class="form-text text-muted">Please enter your phone number with country code +84.</small>
                 </div>
               </div>
               <div class="row mb-3">
@@ -26,17 +25,24 @@
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="descriptionInput" class="col-sm-3 col-form-label">Status</label>
+                <label for="descriptionInput" class="col-sm-3 col-form-label" >Status</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="statusInput" value="{{result.status}}" placeholder="" name="status">
+                  <input type="text" class="form-control" id="statusInput" value="{{result.status}}" placeholder="" name="status" readonly>
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="descriptionInput" class="col-sm-3 col-form-label">Trash type</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="trashtypeInput" value="{{result.trash_type}}" placeholder="" name="trashtype">
+                  <select class="form-select" id="trashtypeSelect" name="trashtype" >
+                    <option value="">Choose Trash Type</option>
+                    <option value="Rác Cồng Kềnh">Rác Cồng Kềnh</option>
+                    <option value="Rác Tái Chế">Rác Tái Chế</option>
+                    <option value="x">Rác Xây Dựng</option>
+                    <option value="Rác Khác">Rác Khác</option>
+                  </select>
                 </div>
               </div>
+
               <div class="row mb-3">
                 <label for="descriptionInput" class="col-sm-3 col-form-label">Price</label>
                 <div class="col-sm-9">
@@ -44,13 +50,14 @@
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="descriptionInput" class="col-sm-3 col-form-label">Price</label>
+                <label for="descriptionInput" class="col-sm-3 col-form-label">Amount</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="amountInput" value="{{result.amount_colleced}}" placeholder="" name="amount">
+                  <input type="text" class="form-control" id="amountInput" value="{{result.amount_collected}}" placeholder="" name="amount">
                 </div>
               </div>
-
-              
+              <div id="successMessage" class="alert alert-success d-none" role="alert">
+                  Updated successfully!
+              </div>
               <!-- New row for the submit button -->
               <div class="row">
                 <div class="col-sm-10 offset-sm-2" style="padding-left:150px;"> <!-- Offset to center the button -->
@@ -66,7 +73,25 @@
 </div>
 <script>
   function validateForm() {
+    var phone = document.getElementById("phoneInput").value;
+    document.getElementById("phoneInput").addEventListener("input", function() {
+      // Loại bỏ tất cả các ký tự không phải số
+      this.value = this.value.replace(/\D/g, '');
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+      var trashtypeSelect = document.getElementById("trashtypeSelect");
+      var resultTrashtype = {{result.trash_type}}; // Lấy giá trị subrole từ biến result trong template
 
+      // Loop qua tất cả các option của select và đặt selected cho option có giá trị trùng với result.subrole
+        for (var i = 0; i < resultTrashtype.options.length; i++) {
+            if (resultTrashtype.options[i].value === resultTrashtype) {
+                resultTrashtype.options[i].selected = true;
+                break;
+            }
+        }
+    });
+
+    document.getElementById("successMessage").classList.remove('d-none');
     // If everything is valid, you can proceed with form submission
     document.getElementById("myForm").submit();
   }

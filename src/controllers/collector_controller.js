@@ -9,7 +9,7 @@ exports.viewCollector = async (req, res) => {
         sdk.Query.offset(0)
     ]);
     const collectorData = view.documents.filter(doc => doc.role === 'collector').map(doc => ({
-        username: doc.username,
+        avatar:doc.avatar,
         email: doc.email,
         role: doc.role,
         phonenumber: doc.phonenumber,
@@ -40,13 +40,13 @@ exports.form = (req, res) => {
 }
 exports.createCollector = (req, res) => {
     var userId = sdk.ID.unique();
-    const { name, email, phonenumber, password,zalonumber,address,username,subrole } = req.body;
-    users.create(userId,email,phonenumber,password,name )
+    const { name, email, phonenumber, password,zalonumber,address,subrole } = req.body;
+    users.createArgon2User(userId,email,password)
     .then(response_create => {
         console.log('Collector added successfully:', response_create);
         var userIdDB = response_create.$id;
         res.render('collector/create_collector', { alert: 'User added successfully.' });
-        databases.createDocument(process.env.APPWRITE_DB,process.env.APPWRITE_USER_COLLECTION, userIdDB, {email,username,role : "collector",name,phonenumber,zalonumber,address,subrole,uid:userIdDB});
+        databases.createDocument(process.env.APPWRITE_DB,process.env.APPWRITE_USER_COLLECTION, userIdDB, {email,role : "collector",name,phonenumber,zalonumber,address,subrole,uid:userIdDB});
       }).catch(error => {
         console.error('Error adding user:', error);
         res.render('collector/create_collector', { alert: 'Failed to add user. Please try again later.' });
@@ -68,7 +68,7 @@ exports.editCollector = (req, res) => {
 
 exports.updateCollector = (req, res) => {
     const userId = req.params.id; 
-    const { name, email, phonenumber,zalonumber,address,username,role,subrole } = req.body;
+    const { name, email, phonenumber,zalonumber,address,role,subrole } = req.body;
 
     databases.updateDocument(process.env.APPWRITE_DB,process.env.APPWRITE_USER_COLLECTION, userId, 
     {
@@ -76,22 +76,37 @@ exports.updateCollector = (req, res) => {
         email:email,
         phonenumber:phonenumber,
         zalonumber: zalonumber,
-        username:username,
         address:address,
         role:role,
         subrole:subrole
         
     })
     .then(response_update => {
-        res.render('collector/edit_collector',{ alert: 'User update successfully.' });
+        res.redirect('/collectors',{ alert: 'User update successfully.' });
       }).catch(error => {
         console.error('Error updat user:', error);
         res.redirect('/collectors');
     });
-    users.updateEmail(userId, email);
-    users.updateName(userId, name);
 
+}
 
-
+exports.banCollector = (req, res) => {
+    const userId = req.params.id; 
+    const {  name, email, phonenumber,zalonumber,address,role} = req.body;
+    databases.updateDocument(process.env.APPWRITE_DB,process.env.APPWRITE_USER_COLLECTION, userId, 
+    {
+        name:name,
+        email:email,
+        phonenumber:phonenumber,
+        zalonumber: zalonumber,
+        address:address,
+        role:"blacklist"
+    })
+    .then(response_update => {
+        res.redirect('/collectors',{ alert: 'Ban user successfully.' });
+      }).catch(error => {
+        console.error('Error updat user:', error);
+        res.redirect('/collectors');
+    });
 }
 

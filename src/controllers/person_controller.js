@@ -14,7 +14,6 @@ exports.viewUser = async (req, res) => {
     );
     // Lọc ra các người dùng có vai trò là "person" và "collector"
     const personData = view.documents.filter(doc => doc.role ==='person').map(doc => ({
-        username: doc.username,
         email: doc.email,
         role: doc.role,
         phonenumber: doc.phonenumber,
@@ -47,13 +46,13 @@ exports.form = (req, res) => {
 }
 exports.createUser = (req, res) => {
     var userId = sdk.ID.unique();
-    const { name, email, phonenumber, password,zalonumber,address,username } = req.body;
-    users.create(userId,email,phonenumber,password,name )
+    const { name, email, phonenumber, password,zalonumber,address } = req.body;
+    users.createArgon2User(userId,email,password)
     .then(response_create => {
         console.log('Person added successfully:', response_create);
         var userIdDB = response_create.$id;
         res.render('person/create_user', { alert: 'User added successfully.' });
-        databases.createDocument(process.env.APPWRITE_DB,process.env.APPWRITE_USER_COLLECTION, userIdDB, {email,username,role : "person",name,phonenumber,zalonumber,address,uid:userIdDB});
+        databases.createDocument(process.env.APPWRITE_DB,process.env.APPWRITE_USER_COLLECTION, userIdDB, {email,role : "person",name,phonenumber,zalonumber,address,uid:userIdDB});
       }).catch(error => {
         console.error('Error adding user:', error);
         res.render('person/create_user', { alert: 'Failed to add user. Please try again later.' });
@@ -75,7 +74,7 @@ exports.editUser = (req, res) => {
 
 exports.updateUser = (req, res) => {
     const userId = req.params.id; 
-    const {  name, email, phonenumber,zalonumber,address,username,role} = req.body;
+    const {  name, email, phonenumber,zalonumber,address,role} = req.body;
 
     databases.updateDocument(process.env.APPWRITE_DB,process.env.APPWRITE_USER_COLLECTION, userId, 
     {
@@ -83,21 +82,37 @@ exports.updateUser = (req, res) => {
         email:email,
         phonenumber:phonenumber,
         zalonumber: zalonumber,
-        username:username,
         address:address,
         role:role
         
     })
     .then(response_update => {
-        res.render('person/edit_user',{ alert: 'User update successfully.' });
+        res.redirect('/users',{ alert: 'User update successfully.' });
       }).catch(error => {
         console.error('Error updat user:', error);
         res.redirect('/users');
     });
-    users.updateEmail(userId, email);
-    users.updateName(userId, name);
 
 
+}
+exports.banUser = (req, res) => {
+    const userId = req.params.id; 
+    const {  name, email, phonenumber,zalonumber,address,role} = req.body;
 
+    databases.updateDocument(process.env.APPWRITE_DB,process.env.APPWRITE_USER_COLLECTION, userId, 
+    {
+        name:name,
+        email:email,
+        phonenumber:phonenumber,
+        zalonumber: zalonumber,
+        address:address,
+        role:"blacklist"
+    })
+    .then(response_update => {
+        res.redirect('/users',{ alert: 'Ban user successfully.' });
+      }).catch(error => {
+        console.error('Error updat user:', error);
+        res.redirect('/users');
+    });
 }
 
