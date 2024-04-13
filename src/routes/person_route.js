@@ -13,5 +13,7 @@ router.post('/:id', UserController.updateUser);
 
 router.get('/delete/:id', UserController.deleteUser);
 
+router.get('/blacklist/:id', UserController.banUser);
+
 
 module.exports = router;

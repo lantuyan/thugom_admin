@@ -1,0 +1,198 @@
+<div class="page-body-wrapper">
+    {{>header}}
+    <!-- partial -->
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="home-tab">
+                        <div class="card card-rounded">
+                            <div class="card-body">
+                                <div class="d-sm-flex justify-content-between align-items-start">
+                                    <!-- Thêm class "col-12" để làm cho phần tử đó chiếm toàn bộ chiều rộng -->
+                                    <h1 class="text-center col-12 mt-2">Cập nhập địa điểm</h1>
+                                </div>
+                                <form class="col-md-6 offset-md-3" id="addPointForm" action="/collection-points/update"
+                                    method="post">
+                                    <input type="hidden" name="id" value="{{ point.$id }}" id="id">
+                                    <input type="hidden" name="labelId" value="{{ point.categoryPoints.$id }}"
+                                        id="labelId">
+                                    <div class="form-group">
+                                        <label>Địa chỉ</label>
+                                        <input type="text" name="address" class="form-control" id="address"
+                                            placeholder="Nhập địa chỉ" value="{{point.address}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Loại địa điểm</label>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <select name="label" class="form-control" id="label">
+                                                    {{#unless pointCategories}}
+                                                    <!-- Kiểm tra xem dropdownOptions có rỗng không -->
+                                                    <option value="" selected disabled>Chưa có loại điểm điểm</option>
+                                                    {{else}}
+                                                    <option value="" disabled>Chọn loại địa điểm</option>
+                                                    {{/unless}}
+                                                    {{#each pointCategories}}
+                                                    <option value="{{ $id }}">{{ Label }} - {{ full_label }}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4 align-items-center py-1 d-flex justify-content-center">
+                                                <!-- Thêm lớp align-items-center và d-flex -->
+                                                <button class="btn btn-success w-100" type="button"
+                                                    onclick="location.href='/category-points/add">Thêm loại địa
+                                                    điểm</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Thông tin chi tiết</label>
+                                        <textarea name="info" class="form-control" id="info" rows="3"
+                                            placeholder="Ví dụ: Trạm thu mua: Nguyễn Văn A Liên hệ: 0123456789">{{point.info}}</textarea>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="lat">Vĩ độ</label>
+                                                <input type="text" name="lat" class="form-control" id="lat"
+                                                    placeholder="Nhập vĩ độ" value="{{point.point_lat}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="lng">Kinh độ</label>
+                                                <input type="text" name="lng" class="form-control" id="lng"
+                                                    placeholder="Nhập kinh độ" value="{{point.point_lng}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Hoặc Chọn Vị Trí</label>
+                                        <div id="map" style="height: 300px; width: 100%;" class="border p-2"></div>
+                                    </div>
+                                    <div id="errorAlert" class="alert alert-danger d-none" role="alert">
+                                        <strong>Lỗi! </strong>Vui lòng điền đầy đủ thông tin và hợp lệ.
+                                    </div>
+                                    <button class="btn btn-primary btn-lg text-white mb-0 me-0" id="submitBtn"
+                                        type="submit">Cập nhập địa điểm</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {{>footer}}
+    <script>
+        $(document).ready(function () {
+            const labelId = $('#labelId').val()
+            // Lặp qua mỗi option trong select
+            $('#label option').each(function () {
+                // Lấy giá trị $id từ thuộc tính value của option
+                const optionId = $(this).val();
+
+                // So sánh giá trị với giá trị bạn muốn
+                if (optionId === labelId) {
+                    // Thiết lập thuộc tính selected cho option nếu trùng khớp
+                    $(this).prop('selected', true);
+                }
+            });
+
+            //map
+            var lat = $('#lat').val();
+            var lng = $('#lng').val();
+            var pin;
+            var map;
+            if (lat && lng) {
+                map = L.map('map').setView([lat, lng], 15);
+                pin = L.marker([lat, lng], { riseOnHover: true, draggable: true });
+                pin.addTo(map);
+            } else {
+                map = L.map('map').setView([16.0617238, 108.2162418], 15);
+                pin = L.marker([16.0617238, 108.2162418], { riseOnHover: true, draggable: true });
+                pin.addTo(map);
+            }
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+            // Gán sự kiện 'click' cho bản đồ
+            map.on('click', function (ev) {
+                $('#lat').val(ev.latlng.lat);
+                $('#lng').val(ev.latlng.lng);
+                if (typeof pin == "object") {
+                    pin.setLatLng(ev.latlng);
+                } else {
+                    pin = L.marker(ev.latlng, { riseOnHover: true, draggable: true });
+                    pin.addTo(map);
+                    pin.on('drag', function (ev) {
+                        $('#lat').val(ev.latlng.lat);
+                        $('#lng').val(ev.latlng.lng);
+                    });
+                }
+            });
+            $("#addPointForm").submit(function (event) {
+                event.preventDefault(); // Ngăn chặn gửi biểu mẫu
+                var id = $("#id").val();
+                var address = $("#address").val();
+                var lat = $("#lat").val();
+                var lng = $("#lng").val();
+                var info = $("#info").val();
+                // Ẩn nút và hiển thị hiệu ứng loading
+                $('#submitBtn').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+                if (address.trim() === "" || lat.trim() === "" || lng.trim() === "" || info.trim() === "") {
+                    $("#errorAlert").removeClass('d-none');
+                    $('#submitBtn').prop('disabled', false).html('Cập nhập địa điểm');
+                } else {
+                    // Nếu biểu mẫu hợp lệ, thực hiện yêu cầu AJAX
+                    $.ajax({
+                        type: "POST",
+                        url: '/collection-points/update/'+id,
+                        data: $(this).serialize(),
+                        success: function (response) {
+                            console.log(response);
+                            swal("Thành công! Địa điểm đã được cập nhập!", {
+                                icon: "success",
+                                buttons: {
+                                    cancel: "Cancel",
+                                    pointList: {
+                                        text: "Danh sách địa điểm",
+                                        value: "pointList",
+                                    },
+                                },
+                            }).then((value) => {
+                                switch (value) {
+                                    case "pointList":
+                                        window.location.href = "/collection-points";
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            // Xử lý lỗi, có thể làm gì đó nếu cần thiết
+                            swal("Lỗi! Đã có lỗi xảy ra!", {
+                                text: error,
+                                icon: "error",
+                            });
+                        },
+                        complete: function () {
+                            // Khôi phục lại nút và ẩn hiệu ứng loading
+                            $('#submitBtn').prop('disabled', false).html('Cập nhập địa điểm');
+                        }
+                    });
+                }
+            });
+            // Xóa errorAlert khi các trường input thay đổi
+            $('#address, #lat, #lng').on('input', function () {
+                $('#errorAlert').addClass('d-none');
+            });
+        });
+    </script>
+</div>

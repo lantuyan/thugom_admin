@@ -10,7 +10,7 @@
                         <div class="card-body">
                             <div class="d-sm-flex justify-content-between align-items-start">
                                 <div>
-                                    <h4 class="card-title card-title-dash ">Yêu cầu</h4>
+                                    <h4 class="card-title card-title-dash ">Urenco</h4>
                                 </div>
                             </div>
                             <div class="table-responsive  mt-3">
@@ -18,33 +18,32 @@
                                     style="width:100%">
                                     <thead>
                                         <tr>
+                                            
+                                            <th>Email</th>
                                             <th>Số điện thoại</th>
+                                            <th>Zalo</th>
                                             <th>Địa chỉ</th>
-                                            <th>Mô tả</th>
-                                            <th>Trạng thái</th>
-                                            <th>Loại rác</th>
-                                            <th>Giá</th>
-                                            <th>Khối lượng</th>
-                                            <th>Ngày yêu cầu</th>
-                                            <th>Hoạt động</th> <!-- Thêm cột Action -->
+                                            <th>Vai trò chính</th>
+                                            <th>Vai trò phụ</th>
+                                            <th>Hoạt động</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each requestData}}
+                                        {{#each urencoData}}
                                         <tr>
+                                            
+                                            <td>{{email }}</td>
                                             <td>{{phonenumber }}</td>
-                                            <td>{{address }}</td>
-                                            <td>{{description }}</td>
-                                            <td>{{status}}</td>
-                                            <td>{{trashtype}}</td>
-                                            <td>{{price}}</td>
-                                            <td>{{amount}}</td>
-                                            <td>{{createAt}}</td>
-                                            <td>
-                                         
-                                                <a href="/requests/{{id}}" class="btn btn-primary btn-sm" title="Edit user" onclick="return"><i class="bi bi-pencil"></i> </a>
-                                                <a href="/requests/delete/{{id}}" class="btn btn-danger btn-sm" title="Delete user" onclick="return confirm('Are you sure you want to delete this user?')"><i class="bi bi-person-x"></i> </a>
+                                            <td>{{zalonumber }}</td>
+                                            <td>{{address}}</td>
+                                            <td>{{role }}</td>
+                                            <td>{{subrole }}</td>
+                                            
+                                            <td>      
+                                                <a href="/collectors/{{id}}" class="btn btn-primary btn-sm" title="Edit user" onclick="return"><i class="bi bi-pencil"></i> </a>                             
+                                                <a href="/collectors/delete/{{id}}" class="btn btn-danger btn-sm" title="Delete " onclick="return confirm('Are you sure you want to delete this user?')"><i class="bi bi-trash"></i> </a>
                                             </td>
+                                            
                                         </tr>
                                         {{/each}}
                                     </tbody>

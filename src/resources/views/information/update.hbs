@@ -1,0 +1,146 @@
+<div class="page-body-wrapper">{{>header}}
+    <!-- partial -->
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="home-tab">
+                        <div class="card card-rounded">
+                            <div class="card-body">
+                                <div class="d-sm-flex justify-content-between align-items-start">
+                                    <!-- Thêm class "col-12" để làm cho phần tử đó chiếm toàn bộ chiều rộng -->
+                                    <h1 class="text-center col-12 mt-2">Cập nhập bài viết</h1>
+                                </div>
+                                <form class="col-md-6 offset-md-3" id="updateForm" enctype="multipart/form-data">
+                                <input type="hidden" name="id" value="{{ information.$id }}" id="id">
+                                    <div class="form-group">
+                                        <label for="title">Tiêu đề bài viết:</label>
+                                        <input type="text" class="form-control" id="title" name="title"
+                                            value="{{information.title}}" placeholder="Nhập tiêu đề bài viết">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="link">Liên kết đến bài viết:</label>
+                                        <input type="text" class="form-control" id="link" name="link"
+                                            value="{{information.link}}" placeholder="Nhập liên kết bài viết">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description">Mô tả bài viết</label>
+                                        <textarea class="form-control" id="description" rows="5"
+                                            placeholder="Nhập mô tả bài viết tối đa 150 từ">{{information.description}}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="image">Chọn ảnh:</label>
+                                        <input type="file" class="form-control-file" id="image" name="image"
+                                            accept="image/*">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Preview:</label>
+                                        <div id="preview" class="border p-2 text-center">
+                                            <img src="{{information.imagelink}}" id="previewImage"
+                                                class="img-fluid rounded" style="height: 200px; object-fit: cover;"
+                                                alt="Preview">
+                                        </div>
+                                    </div>
+                                    <div id="errorAlert" class="alert alert-danger d-none" role="alert">
+                                        <strong>Thông báo lỗi! </strong>Vui lòng nhập đầy đủ thông tin.
+                                    </div>
+                                    <button class="btn btn-primary btn-lg text-white mb-0 me-0" id="submitBtn"
+                                        type="submit">Lưu bài viết</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{>footer}}
+    <script>
+        $(document).ready(function () {
+            $('#image').change(function () {
+                var input = this;
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#previewImage').attr('src', e.target.result);
+                        $(input).val(e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            });
+            // Sự kiện khi rời khỏi trường nhập liệu
+            $('#link, #title,#description,#image').change(function () {
+                $('#errorAlert').hide(); // Ẩn thông báo lỗi khi dữ liệu được sửa đổi
+            });
+            $('#updateForm').submit(function (e) {
+                e.preventDefault(); // Ngăn chặn gửi form mặc định
+                var id = $('#id').val();
+                var link = $('#link').val().trim();
+                var title = $('#title').val().trim();
+                var description = $('#description').val().trim();
+                var imageInput = $('#image')[0].files[0];
+                // Biểu thức chính quy để kiểm tra URL
+                var urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
+                // Ẩn nút và hiển thị hiệu ứng loading
+                $('#submitBtn').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+                if (!link || !title || !description) {
+                    $('#errorAlert').removeClass('d-none').show(); // Hiển thị thông báo lỗi
+                    $('#submitBtn').prop('disabled', false).html('Lưu bài viết');
+                    return false;
+                } else if (!urlPattern.test(link)) {
+                    $('#errorAlert').removeClass('d-none').html('<strong>Lỗi!</strong> Vui lòng nhập liên kết bài viết hợp lệ.').show();
+                    $('#submitBtn').prop('disabled', false).html('Lưu bài viết');
+                    return false;
+                }
+                // Tạo một đối tượng FormData và thêm dữ liệu của biểu mẫu vào đó
+                var formData = new FormData();
+                formData.append('link', link);
+                formData.append('title', title);
+                formData.append('description', description);
+                formData.append('image', imageInput);
+                formData.append('id', id);
+                // Gửi yêu cầu AJAX
+                $.ajax({
+                    type: 'POST',
+                    url: '/information/' + id, // Địa chỉ gửi yêu cầu POST
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        console.log(response);
+                        swal("Thành công! Bài viết đã được tạo mới!", {
+                            icon: "success",
+                            buttons: {
+                                cancel: "Cancel",
+                                pointList: {
+                                    text: "Danh sách bài viết",
+                                    value: "information",
+                                },
+                            },
+                        }).then((value) => {
+                            switch (value) {
+                                case "information":
+                                    window.location.href = "/information";
+                                    break;
+                                default:
+                                    break;
+                            }
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        // Xử lý lỗi, có thể làm gì đó nếu cần thiết
+                        swal("Lỗi! Đã có lỗi xảy ra!", {
+                            text: error,
+                            icon: "error",
+                        });
+                    },
+                    complete: function () {
+                        // Khôi phục lại nút và ẩn hiệu ứng loading
+                        $('#submitBtn').prop('disabled', false).html('Lưu bài viết');
+                    }
+                });
+            });
+        });
+    </script>
+</div>

@@ -13,6 +13,8 @@ router.post('/:id', Collector.updateCollector);
 
 router.get('/delete/:id', Collector.deleteCollector);
 
+router.get('/blacklist/:id', Collector.banCollector);
+
 
 
 

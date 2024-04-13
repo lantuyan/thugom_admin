@@ -1,0 +1,126 @@
+<div class="page-body-wrapper">
+    {{>header}}
+    <!-- partial -->
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="home-tab">
+                        <div class="card card-rounded">
+                            <div class="card-body">
+                                <div class="d-sm-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h4 class="card-title card-title-dash ">Bài viết thông tin</h4>
+                                    </div>
+                                    <div>
+                                        <button onclick="window.location.href='/information/add'"
+                                            class="btn btn-primary btn-lg text-white mb-0 me-0" type="button">
+                                            <i class="mdi mdi-image-plus"></i>Thêm bài viết mới</button>
+                                    </div>
+                                </div>
+                                <div class="table-responsive mt-3">
+                                    <table id="informationTable" class="table table-striped table-bordered table-hover"
+                                        style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Tiêu đề</th>
+                                                <th>Mô tả</th>
+                                                <th>Ảnh</th>
+                                                <th>Liên kết bài viết</th>
+                                                <th>Created At</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each information}}
+                                            <tr>
+                                                <td class="text-break align-middle" style="max-width: 80px; 
+                                                    overflow: hidden;
+                                                    text-overflow: ellipsis; 
+                                                    white-space: nowrap;">{{ title }}
+                                                </td>
+                                                <td class="text-break align-middle"
+                                                    style="max-width: 300px; white-space: normal; overflow: hidden;text-overflow: ellipsis;line-height: 1.2;">
+                                                    {{ description }}
+                                                </td>
+                                                <td class="align-middle text-center"><img class="img-fluid rounded"
+                                                        style="max-width: 400px; height: auto;" src="{{ imagelink }} "
+                                                        alt="Image" ></td>
+                                                <td class="text-break align-middle"
+                                                    style="max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                    <a target="_blank" href="{{ link }}">{{ link }}</a>
+                                                </td>
+                                                <td class="align-middle">{{ $createdAt }}
+                                                </td>
+                                                <td class="align-middle">
+                                                    <!-- Nút cập nhật -->
+                                                    <button class="btn btn-primary btn-icon update-btn p-2"
+                                                        onclick="location.href='/information/{{ $id }}';">
+                                                        <i class="mdi mdi-pencil"></i>
+                                                    </button>
+                                                    <!-- Thêm nút xóa -->
+                                                    <button class="btn btn-danger btn-icon delete-btn p-2"
+                                                        id="deleteBtn" data-id="{{ $id }}"><i
+                                                            class="mdi mdi-delete"></i></button>
+                                                </td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {{>footer}}
+
+    <script>
+        $(document).ready(function () {
+             $('.table-responsive').on('click', '.img-fluid', function () {
+                var imgSrc = $(this).attr('src');
+                window.open(imgSrc, '_blank');
+            });
+        
+            // Bắt sự kiện click trên nút xóa
+            $(document).on('click', '#deleteBtn', function () {
+                const id = $(this).data('id');
+                // Sử dụng SweetAlert để hiển thị cửa sổ xác nhận
+                swal({
+                    title: "Bạn có chắc không?",
+                    text: "Sau khi xóa, bạn sẽ không thể khôi phục bài viết này!",
+                    icon: "warning",
+                    buttons: [true, "Có, xóa nó đi"],
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            type: 'DELETE',
+                            url: '/information/' + id,
+                            success: function (response) {
+                                console.log(response);
+                                // Xử lý thành công, có thể làm gì đó nếu cần thiết
+                                swal("Đã xóa!", "Bài viết này đã bị xóa.", "success").then(() => {
+                                    window.location.href = "/information";
+                                });
+                            },
+                            error: function (xhr, status, error) {
+                                // Xử lý lỗi, có thể làm gì đó nếu cần thiết
+                                    swal("Lỗi! Đã có lỗi xảy ra!", {
+                                        text: error,
+                                        icon: "error",
+                                    });
+                            }
+                        });
+                    }
+                });
+
+            });
+        });
+        new DataTable('#informationTable');
+    </script>
+</div>
