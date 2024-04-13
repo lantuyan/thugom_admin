@@ -1,10 +1,10 @@
-const { client, account,databases } = require('../services/appwrite_client');
+const { client, account, databases } = require('../services/appwrite_client');
 const { users } = require('../services/appwrite_server');
 const sdk = require("node-appwrite");
 const { v4: uuidv4 } = require('uuid');
 //Lấy dữ liệu với role = collector và subrole = urenco
-exports.viewBlacklist= async (req, res) => {
-    const view = await databases.listDocuments(process.env.APPWRITE_DB, process.env.APPWRITE_USER_COLLECTION,[
+exports.viewBlacklist = async (req, res) => {
+    const view = await databases.listDocuments(process.env.APPWRITE_DB, process.env.APPWRITE_USER_COLLECTION, [
         sdk.Query.limit(100),
         sdk.Query.offset(0)
     ]);
@@ -12,7 +12,7 @@ exports.viewBlacklist= async (req, res) => {
         email: doc.email,
         role: doc.role,
         phonenumber: doc.phonenumber,
-        zalonumber:doc.zalonumber,
+        zalonumber: doc.zalonumber,
         address: doc.address,
         id: doc.$id
     }));
@@ -24,13 +24,13 @@ exports.viewBlacklist= async (req, res) => {
 // Delete User
 exports.deleteBlacklist = (req, res) => {
     const userId = req.params.id;
-    databases.deleteDocument(process.env.APPWRITE_DB,process.env.APPWRITE_USER_COLLECTION , userId);
+    databases.deleteDocument(process.env.APPWRITE_DB, process.env.APPWRITE_USER_COLLECTION, userId);
     users.delete(userId).then(function (response_delete) {
         res.redirect('/blacklist');
-    }).catch(function(error) {
+    }).catch(function (error) {
         console.log('Error deleting user:', error);
         // Xử lý phản hồi lỗi ở đây
-        res.status(500).send("Error deleting user");  
+        res.status(500).send("Error deleting user");
     });
 }
 
@@ -51,25 +51,25 @@ exports.editBlacklist = (req, res) => {
 
 
 exports.updateBlacklist = (req, res) => {
-    const userId = req.params.id; 
-    const { name, email, phonenumber,zalonumber,address,role} = req.body;
+    const userId = req.params.id;
+    const { name, email, phonenumber, zalonumber, address, role } = req.body;
 
-    databases.updateDocument(process.env.APPWRITE_DB,process.env.APPWRITE_USER_COLLECTION, userId, 
-    {
-        name:name,
-        email:email,
-        phonenumber:phonenumber,
-        zalonumber: zalonumber,
-        address:address,
-        role:"person"
-        
-    })
-    .then(response_update => {
-        res.redirect('/blacklist',{ alert: 'User update successfully.' });
-      }).catch(error => {
-        console.error('Error updat user:', error);
-        res.redirect('/blacklist');
-    });
+    databases.updateDocument(process.env.APPWRITE_DB, process.env.APPWRITE_USER_COLLECTION, userId,
+        {
+            name: name,
+            email: email,
+            phonenumber: phonenumber,
+            zalonumber: zalonumber,
+            address: address,
+            role: "person"
+
+        })
+        .then(response_update => {
+            res.redirect('/blacklist', { alert: 'User update successfully.' });
+        }).catch(error => {
+            console.error('Error updat user:', error);
+            res.redirect('/blacklist');
+        });
 
 }
 
