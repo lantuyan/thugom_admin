@@ -44,8 +44,8 @@
                                                     {{ description }}
                                                 </td>
                                                 <td class="align-middle text-center"><img class="img-fluid rounded"
-                                                        style="max-width: 400px; height: auto;" src="{{ imagelink }}"
-                                                        alt="Image"></td>
+                                                        style="max-width: 400px; height: auto;" src="{{ imagelink }} "
+                                                        alt="Image" ></td>
                                                 <td class="text-break align-middle"
                                                     style="max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                     <a target="_blank" href="{{ link }}">{{ link }}</a>
@@ -81,6 +81,11 @@
 
     <script>
         $(document).ready(function () {
+             $('.table-responsive').on('click', '.img-fluid', function () {
+                var imgSrc = $(this).attr('src');
+                window.open(imgSrc, '_blank');
+            });
+        
             // Bắt sự kiện click trên nút xóa
             $(document).on('click', '#deleteBtn', function () {
                 const id = $(this).data('id');

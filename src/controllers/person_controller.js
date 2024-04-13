@@ -13,7 +13,7 @@ exports.viewUser = async (req, res) => {
         ]
     );
     // Lọc ra các người dùng có vai trò là "person" và "collector"
-    const personData = view.documents.filter(doc => doc.role === 'person').map(doc => ({
+    const personData = view.documents.filter(doc => doc.role === 'person' && (doc.ban === false ||doc.ban === null)).map(doc => ({
         email: doc.email,
         role: doc.role,
         phonenumber: doc.phonenumber,
@@ -97,7 +97,7 @@ exports.updateUser = (req, res) => {
 }
 exports.banUser = (req, res) => {
     const userId = req.params.id;
-    const { name, email, phonenumber, zalonumber, address, role } = req.body;
+    const { name, email, phonenumber, zalonumber, address, role ,ban} = req.body;
 
     databases.updateDocument(process.env.APPWRITE_DB, process.env.APPWRITE_USER_COLLECTION, userId,
         {
@@ -106,10 +106,11 @@ exports.banUser = (req, res) => {
             phonenumber: phonenumber,
             zalonumber: zalonumber,
             address: address,
-            role: "blacklist"
+            role: role,
+            ban: true
         })
         .then(response_update => {
-            res.redirect('/users', { alert: 'Ban user successfully.' });
+            res.redirect('/users');
         }).catch(error => {
             console.error('Error updat user:', error);
             res.redirect('/users');

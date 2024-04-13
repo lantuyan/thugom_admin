@@ -58,9 +58,9 @@
         new DataTable('#example');
 
         // Xử lý sự kiện click cho các ảnh
-        $('.feedback-image').click(function() {
-            var link = $(this).data('link'); // Lấy đường dẫn từ thuộc tính data-link
-            window.open(link, '_blank'); // Mở liên kết trong một tab hoặc cửa sổ mới
-        });
+            $('.table-responsive').on('click', '.feedback-image', function() {
+                var link = $(this).data('link');
+                window.open(link, '_blank');
+            });
     });
 </script>

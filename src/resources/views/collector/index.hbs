@@ -10,10 +10,10 @@
                         <div class="card-body">
                             <div class="d-sm-flex justify-content-between align-items-start">
                                 <div>
-                                    <h4 class="card-title card-title-dash ">Collector</h4>
+                                    <h4 class="card-title card-title-dash ">Người thu mua</h4>
                                 </div>
                                 <div>
-                                    <a href="/collectors/create" class="btn btn-success align-self-center" role="button" >Add new user</a>
+                                    <a href="/collectors/create" class="btn btn-success align-self-center" role="button" >Thêm người thu mua</a>
                                 </div>
                             </div>
                             <div class="table-responsive  mt-3">
@@ -21,19 +21,19 @@
                                     style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Avatar</th>
+                                            <th>Ảnh đại diện</th>
                                             <th>Email</th>
-                                            <th>Phone</th>
-                                            <th>Zalo Number</th>
-                                            <th>Address</th>
-                                            <th>Role</th>
-                                            <th>Action</th> <!-- Thêm cột Action -->
+                                            <th>Số điện thoại</th>
+                                            <th>Zalo</th>
+                                            <th>Địa chỉ</th>
+                                            <th>Vai trò chính</th>
+                                            <th>Hoạt động</th> <!-- Thêm cột Action -->
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {{#each collectorData}}
                                         <tr>
-                                            <td><img src="{{avatar}}" alt="Avatar" class="avatar" style="max-width: 100px;"></td>
+                                            <td><img src="{{avatar}}" class="feedback-image" data-link="{{avatar}} "></td>
                                             <td>{{email }}</td>
                                             <td>{{phonenumber }}</td>
                                             <td>{{zalonumber }}</td>
@@ -65,5 +65,12 @@
 <script>
     $(document).ready(function () {
         new DataTable('#example');
+
+        // Xử lý sự kiện click cho các ảnh
+            $('.table-responsive').on('click', '.feedback-image', function() {
+                var link = $(this).data('link');
+                window.open(link, '_blank');
+            });
+
     });
 </script>

@@ -4,9 +4,9 @@
       <div class="card">
         <div class="card-body">
           <form id="myForm" enctype="multipart/form-data">
-            <h1 style="text-align: center;padding-bottom:20px">Add Collector</h1>
+            <h1 style="text-align: center;padding-bottom:20px">Thêm người thu mua</h1>
             <div class="row mb-3">
-              <label for="nameInput" class="col-sm-3 col-form-label">Name:<span style="color: red">*</span></label>
+              <label for="nameInput" class="col-sm-3 col-form-label">Tên:<span style="color: red">*</span></label>
               <div class="col-sm-9">
                 <input type="text" class="form-control" id="nameInput" value="{{this.name}}" placeholder="Name"
                   name="name">
@@ -20,13 +20,13 @@
               </div>
             </div>
             <div id="alertMessage" class="alert alert-danger d-none" role="alert">
-              Please enter your email
+              Vui lòng nhập email
             </div>
             <div id="alertMessage4" class="alert alert-danger d-none" role="alert">
-              Email is not in correct format
+              Email của bạn chưa đúng định dạng
             </div>
             <div class="row mb-3">
-              <label for="passwordInput" class="col-sm-3 col-form-label">Password:<span
+              <label for="passwordInput" class="col-sm-3 col-form-label">Mật khẩu:<span
                   style="color: red">*</span></label>
               <div class="col-sm-9 input-group">
                 <input type="password" class="form-control" id="passwordInput" value="{{this.password}}" placeholder=""
@@ -37,13 +37,13 @@
               </div>
             </div>
             <div id="alertMessage2" class="alert alert-danger d-none" role="alert">
-              Please enter your Password
+              Vui lòng nhập mật khẩu
             </div>
             <div id="alertMessage3" class="alert alert-danger d-none" role="alert">
-              Password must be between 8 and 24 characters long.
+              Mật khẩu phải đủ từ 8 đến 24 kí tự
             </div>
             <div class="row mb-3">
-              <label for="phoneInput" class="col-sm-3 col-form-label">Phone:<span style="color: red">*</span></label>
+              <label for="phoneInput" class="col-sm-3 col-form-label">Số điện thoại:<span style="color: red">*</span></label>
               <div class="col-sm-9">
                 <input type="text" class="form-control" id="phoneInput" value="{{this.phonenumber}}"
                   placeholder="Phone number" name="phonenumber">
@@ -60,7 +60,7 @@
             </div>
 
             <div class="row mb-3">
-              <label for="bioInput" class="col-sm-3 col-form-label">Address:<span style="color: red">*</span></label>
+              <label for="bioInput" class="col-sm-3 col-form-label">Địa chỉ:<span style="color: red">*</span></label>
               <div class="col-sm-9">
                 <input type="text" class="form-control" id="addressInput" value="{{this.address}}" placeholder=""
                   name="address">
@@ -68,27 +68,27 @@
             </div>
 
             <div class="row mb-3">
-              <label for="subroleSelect" class="col-sm-3 col-form-label">Subrole:</label>
+              <label for="subroleSelect" class="col-sm-3 col-form-label">Vai trò phụ:</label>
               <div class="col-sm-9">
                 <select class="form-select" id="subroleSelect" name="subrole">
-                  <option value="">Choose Subrole</option>
+                  <option value="">Vui lòng chọn</option>
                   <option value="Urenco">Urenco</option>
                   <option value="Angency">Angency</option>
                 </select>
               </div>
             </div>
             <div id="successMessage" class="alert alert-success d-none" role="alert">
-              User added successfully!
+              Bạn đã thêm người dùng thành công!
             </div>
             <div id="alert5" class="alert alert-danger d-none" role="alert">
-              Please enter the complete information field
+              Vui lòng nhập đầy đủ thông tin
             </div>
 
             <!-- New row for the submit button -->
             <div class="row">
               <div class="col-sm-10 offset-sm-2" style="padding-left:140px;"> <!-- Offset to center the button -->
-                <button class="btn btn-success" type="submit" onclick="validateForm()">Comfirm</button>
-                <a href="/collectors" class="btn btn-light">Cancel</a>
+                <button class="btn btn-success" type="submit" onclick="validateForm()">Xác nhận</button>
+                <a href="/collectors" class="btn btn-light">Hủy</a>
               </div>
             </div>
           </form>

@@ -76,6 +76,11 @@
 
     <script>
         $(document).ready(function () {
+            // Bắt sự kiện click vào ảnh
+            $('.table-responsive').on('click', '.img-fluid', function () {
+                var imgSrc = $(this).attr('src');
+                window.open(imgSrc, '_blank');
+            });
             // Bắt sự kiện click trên nút xóa
             $(document).on('click', '#deleteBtn', function () {
                 const id = $(this).data('id');
