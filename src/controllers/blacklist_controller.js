@@ -8,7 +8,7 @@ exports.viewBlacklist = async (req, res) => {
         sdk.Query.limit(100),
         sdk.Query.offset(0)
     ]);
-    const blacklistData = view.documents.filter(doc => doc.role === 'blacklist').map(doc => ({
+    const blacklistData = view.documents.filter(doc => doc.ban === true).map(doc => ({
         email: doc.email,
         role: doc.role,
         phonenumber: doc.phonenumber,
@@ -61,11 +61,12 @@ exports.updateBlacklist = (req, res) => {
             phonenumber: phonenumber,
             zalonumber: zalonumber,
             address: address,
-            role: "person"
+            role: role,
+            ban: false
 
         })
         .then(response_update => {
-            res.redirect('/blacklist', { alert: 'User update successfully.' });
+            res.redirect('/blacklist');
         }).catch(error => {
             console.error('Error updat user:', error);
             res.redirect('/blacklist');

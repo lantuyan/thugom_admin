@@ -8,7 +8,7 @@ exports.viewCollector = async (req, res) => {
         sdk.Query.limit(100),
         sdk.Query.offset(0)
     ]);
-    const collectorData = view.documents.filter(doc => doc.role === 'collector').map(doc => ({
+    const collectorData = view.documents.filter(doc => doc.role === 'collector' && (doc.ban === false ||doc.ban === null)).map(doc => ({
         avatar: doc.avatar,
         email: doc.email,
         role: doc.role,
@@ -92,7 +92,7 @@ exports.updateCollector = (req, res) => {
 
 exports.banCollector = (req, res) => {
     const userId = req.params.id;
-    const { name, email, phonenumber, zalonumber, address, role } = req.body;
+    const { name, email, phonenumber, zalonumber, address, role,ban } = req.body;
     databases.updateDocument(process.env.APPWRITE_DB, process.env.APPWRITE_USER_COLLECTION, userId,
         {
             name: name,
@@ -100,10 +100,11 @@ exports.banCollector = (req, res) => {
             phonenumber: phonenumber,
             zalonumber: zalonumber,
             address: address,
-            role: "blacklist"
+            role: role,
+            ban: true
         })
         .then(response_update => {
-            res.redirect('/collectors', { alert: 'Ban user successfully.' });
+            res.redirect('/collectors');
         }).catch(error => {
             console.error('Error updat user:', error);
             res.redirect('/collectors');
