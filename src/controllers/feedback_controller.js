@@ -31,12 +31,10 @@ exports.viewFeedback = async (req, res) => {
 // Delete User
 exports.deleteFeedback = (req, res) => {
     const userId = req.params.id;
-    console.log(userId)
     databases.deleteDocument(process.env.APPWRITE_DB, process.env.APPWRITE_FEEDBACK_COLLECTION, userId).then(result => {
         res.redirect('/feedback');
+    }).catch(error => {
+        res.redirect('/feedback')
     })
-        .catch(error => {
-            res.render('/errors/404')
-        })
 
 }

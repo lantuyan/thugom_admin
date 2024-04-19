@@ -8,7 +8,7 @@ exports.viewUser = async (req, res) => {
 
     const view = await databases.listDocuments(process.env.APPWRITE_DB, process.env.APPWRITE_USER_COLLECTION,
         [
-            sdk.Query.limit(100),
+            sdk.Query.limit(1000),
             sdk.Query.offset(0)
         ]
     );

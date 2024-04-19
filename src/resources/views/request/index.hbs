@@ -43,7 +43,7 @@
                                             <td>
                                          
                                                 <a href="/requests/{{id}}" class="btn btn-primary btn-sm" title="Edit user" onclick="return"><i class="bi bi-pencil"></i> </a>
-                                                <a href="/requests/delete/{{id}}" class="btn btn-danger btn-sm" title="Delete user" onclick="return confirm('Are you sure you want to delete this user?')"><i class="bi bi-person-x"></i> </a>
+                                                <a href="/requests/delete/{{id}}" class="btn btn-danger btn-sm" title="Delete user" id="deleteBtn" data-id={{id}}><i class="bi bi-trash"></i> </a>
                                             </td>
                                         </tr>
                                         {{/each}}
@@ -64,5 +64,42 @@
 <script>
     $(document).ready(function () {
         new DataTable('#example');
+        $(document).on('click', '#deleteBtn', function(e) {
+        e.preventDefault();
+        const id =  $(this).data('id');
+        swal({
+            title: "Bạn có chắc không?",
+            text: "Sau khi xóa, bạn sẽ không thể khôi phục lại!",
+            icon: "warning",
+            buttons: [true, "Có, xóa nó đi"],
+            dangerMode: true,
+        }).then((willDelete)=>{
+            if(willDelete)
+            {
+                $.ajax({
+                    type: 'GET',
+                    url: '/requests/delete/' + id,
+                    success: function(response) {
+                        console.log(response);
+                        // Xử lý thành công, có thể làm gì đó nếu cần thiết
+                        swal("Đã xóa!", "Yêu cầu người dùng đã được xóa", "success").then(() => {
+                            window.location.href = "/requests";
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        if(xhr.responseText == "document_delete_restricted"){
+                        // Xử lý lỗi, có thể làm gì đó nếu cần thiết
+                            swal("Lỗi! Đã có lỗi xảy ra!", {
+                                text: error,
+                                icon: "error",
+                            });
+                        }
+                    }
+                });
+            }
+        })
+        // Gửi yêu cầu AJAX để xóa người dùng
+
+        });
     });
 </script>
