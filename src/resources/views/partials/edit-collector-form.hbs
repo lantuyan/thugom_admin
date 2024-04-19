@@ -161,23 +161,7 @@
     else {
       document.getElementById("alertMessage5").classList.add('d-none');
     }
-    //subrole
-    document.addEventListener('DOMContentLoaded', function() {
-    // Lấy giá trị của subrole từ dữ liệu trước đó
-      var subroleValue = {{result.subrole}};
-      console.log(subroleValue);
-      // Lấy thẻ select
-      var subroleSelect = document.getElementById('subroleSelect');
 
-      // Lặp qua từng tùy chọn trong select để so sánh với giá trị từ dữ liệu trước đó
-      for (var i = 0; i < subroleSelect.options.length; i++) {
-          if (subroleSelect.options[i].value === subroleValue) {
-              // Nếu tìm thấy giá trị trùng khớp, đặt thuộc tính selected cho tùy chọn đó
-              subroleSelect.options[i].selected = true;
-              break;
-          }
-      }
-  });
 
     document.getElementById("successMessage").classList.remove('d-none');
     document.getElementById("myForm").submit();
