@@ -9,7 +9,7 @@ exports.viewFeedback = async (req, res) => {
 
     const view = await databases.listDocuments(process.env.APPWRITE_DB, process.env.APPWRITE_FEEDBACK_COLLECTION,
         [
-            sdk.Query.limit(100),
+            sdk.Query.limit(100000),
             sdk.Query.offset(0)
         ]
     );
