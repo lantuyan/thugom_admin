@@ -74,7 +74,7 @@ exports.updateRequest = (req, res) => {
             amount_collected: amount
         })
         .then(response_update => {
-            res.render('request/edit_user', { alert: 'User update successfully.' });
+            res.redirect('/requests');
         }).catch(error => {
             console.error('Error updat user:', error);
             res.redirect('/requests');
