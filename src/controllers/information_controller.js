@@ -10,7 +10,7 @@ class InformationController {
                 process.env.APPWRITE_DB,
                 process.env.APPWRITE_INFORMATION_COLLECTION,
                 [
-                    sdk.Query.limit(200),
+                    sdk.Query.limit(100000),
                     sdk.Query.offset(0),
                     sdk.Query.orderAsc("$createdAt"),
                 ]
