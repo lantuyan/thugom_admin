@@ -82,7 +82,7 @@ exports.updateCollector = (req, res) => {
 
         })
         .then(response_update => {
-            res.redirect('/collectors', { alert: 'User update successfully.' });
+            res.redirect('/collectors');
         }).catch(error => {
             console.error('Error updat user:', error);
             res.redirect('/collectors');
