@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 //view 
 exports.viewCollector = async (req, res) => {
     const view = await databases.listDocuments(process.env.APPWRITE_DB, process.env.APPWRITE_USER_COLLECTION, [
-        sdk.Query.limit(100),
+        sdk.Query.limit(100000),
         sdk.Query.offset(0)
     ]);
     const collectorData = view.documents.filter(doc => doc.role === 'collector' && (doc.ban === false ||doc.ban === null)).map(doc => ({
@@ -82,7 +82,7 @@ exports.updateCollector = (req, res) => {
 
         })
         .then(response_update => {
-            res.redirect('/collectors', { alert: 'User update successfully.' });
+            res.redirect('/collectors');
         }).catch(error => {
             console.error('Error updat user:', error);
             res.redirect('/collectors');

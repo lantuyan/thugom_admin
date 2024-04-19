@@ -10,7 +10,7 @@ class CollectionPointController {
                 process.env.APPWRITE_DB,
                 process.env.APPWRITE_POINT_COLLECTION,
                 [
-                    sdk.Query.limit(200),
+                    sdk.Query.limit(100000),
                     sdk.Query.offset(0),
                     sdk.Query.orderAsc("$createdAt"),
                     sdk.Query.select(["point_lat","point_lng","label","$createdAt","$id","info","address"]),
@@ -122,7 +122,7 @@ async function getAllCategory() {
         process.env.APPWRITE_DB,
         process.env.APPWRITE_CATEGORY_POINT_COLLECTION,
         [
-            sdk.Query.limit(200),
+            sdk.Query.limit(100000),
             sdk.Query.offset(0),
             sdk.Query.orderAsc("$createdAt"),
             sdk.Query.select(['$id', 'Label', 'full_label'],)

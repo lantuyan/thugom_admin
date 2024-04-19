@@ -4,17 +4,17 @@
       <div class="card">
         <div class="card-body">
           <form id="myForm" enctype="multipart/form-data">
-            <h1 style="text-align: center;padding-bottom:20px">Cập nhật người thu mua</h1>
+            <h1 style="text-align: center;padding-bottom:20px">Cập nhật người thu gom</h1>
             <div class="row mb-3">
-              <label for="nameInput" class="col-sm-2 col-form-label">Tên:<span style="color: red">*</span></label>
-              <div class="col-sm-10">
+              <label for="nameInput" class="col-sm-3 col-form-label">Tên:<span style="color: red">*</span></label>
+              <div class="col-sm-9">
                 <input type="text" class="form-control" id="nameInput" value="{{result.name}}" placeholder="Name"
                   name="name">
               </div>
             </div>
             <div class="row mb-3">
-              <label for="emailInput" class="col-sm-2 col-form-label">Email:<span style="color: red">*</span></label>
-              <div class="col-sm-10">
+              <label for="emailInput" class="col-sm-3 col-form-label">Email:<span style="color: red">*</span></label>
+              <div class="col-sm-9">
                 <input type="email" class="form-control" id="emailInput" value="{{result.email}}"
                   placeholder="example@email.com" name="email">
               </div>
@@ -25,44 +25,48 @@
             <div id="alertMessage4" class="alert alert-danger d-none" role="alert">
               Email của bạn chưa đúng định dạng
             </div>
+            <div id="alertMessage8" class="alert alert-danger d-none" role="alert">
+              Email của bạn chưa đáp ứng độ dài tối thiểu (10)
+            </div>
             <div class="row mb-3">
-              <label for="phoneInput" class="col-sm-2 col-form-label">Số điện thoại:<span style="color: red">*</span></label>
-              <div class="col-sm-10">
+              <label for="phoneInput" class="col-sm-3 col-form-label">Số điện thoại:<span style="color: red">*</span></label>
+              <div class="col-sm-9">
                 <input type="text" class="form-control" id="phoneInput" value="{{result.phonenumber}}"
                   placeholder="Phone number" name="phonenumber">
               </div>
             </div>
             <div id="alertMessage6" class="alert alert-danger d-none" role="alert">
-              Vui lòng nhập số điện thoại
+              Vui lòng kiểm tra định dạng số điện thoại
             </div>
             <div class="row mb-3">
-              <label for="phoneInput" class="col-sm-2 col-form-label">Zalo:<span style="color: red">*</span></label>
-              <div class="col-sm-10">
+              <label for="phoneInput" class="col-sm-3 col-form-label">Zalo:<span style="color: red">*</span></label>
+              <div class="col-sm-9">
                 <input type="text" class="form-control" id="zalonumberInput" value="{{result.zalonumber}}"
                   placeholder="Zalo number" name="zalonumber">
               </div>
             </div>
             <div id="alertMessage7" class="alert alert-danger d-none" role="alert">
-              Vui lòng nhập số zalo
+              Vui lòng kiểm tra định dạng số zalo
             </div>
             <div class="row mb-3">
-              <label for="bioInput" class="col-sm-2 col-form-label">Địa chỉ:<span style="color: red">*</span></label>
-              <div class="col-sm-10">
+              <label for="bioInput" class="col-sm-3 col-form-label">Địa chỉ:<span style="color: red">*</span></label>
+              <div class="col-sm-9">
                 <input type="text" class="form-control" id="addressInput" value="{{result.address}}" placeholder=""
                   name="address">
               </div>
             </div>
             <div class="row mb-3">
-              <label for="roleInput" class="col-sm-2 col-form-label">Vai trò:</label>
-              <div class="col-sm-10">
+              <label for="roleInput" class="col-sm-3 col-form-label">Vai trò:</label>
+              <div class="col-sm-9">
                 <input type="text" class="form-control" id="roleInput" value="{{result.role}}" placeholder=""
                   name="role" readonly>
               </div>
             </div>
             <div class="row mb-3">
-              <label for="subroleSelect" class="col-sm-2 col-form-label">Vai trò phụ:</label>
-              <div class="col-sm-10">
+              <label for="subroleSelect" class="col-sm-3 col-form-label">Vai trò phụ:</label>
+              <div class="col-sm-9">
                 <select class="form-select" id="subroleSelect" name="subrole">
+                  <!--<option value="">{{result.subrole}}</option>-->
                   <option value="">Choose Subrole</option>
                   <option value="Urenco">Urenco</option>
                   <option value="Angency">Angency</option>
@@ -106,9 +110,14 @@
       document.getElementById("alertMessage").classList.remove('d-none');
       event.preventDefault();
       return false;
-    } else {
+    }else if(email.indexOf('@') === -1 || email.split('@')[0].length < 9){
+      document.getElementById("alertMessage8").classList.remove('d-none');
+      event.preventDefault();
+      return false;
+    }  else {
       // Nếu không rỗng, ẩn các thông báo lỗi và tiếp tục với việc gửi biểu mẫu
       document.getElementById("alertMessage").classList.add('d-none');
+      document.getElementById("alertMessage8").classList.add('d-none');
     }
 
     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -152,6 +161,7 @@
     else {
       document.getElementById("alertMessage5").classList.add('d-none');
     }
+
 
     document.getElementById("successMessage").classList.remove('d-none');
     document.getElementById("myForm").submit();

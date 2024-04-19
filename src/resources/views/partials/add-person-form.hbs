@@ -50,6 +50,12 @@
 
               </div>
             </div>
+            <div id="alertMessage6" class="alert alert-danger d-none" role="alert">
+              Vui lòng kiểm tra định dạng số điện thoại
+            </div>
+            <div id="alertMessage8" class="alert alert-danger d-none" role="alert">
+              Email của bạn chưa đáp ứng độ dài tối thiểu (10)
+            </div>
             <div class="row mb-3">
               <label for="phoneInput" class="col-sm-3 col-form-label">Zalo:<span style="color: red">*</span></label>
               <div class="col-sm-9">
@@ -58,7 +64,9 @@
 
               </div>
             </div>
-
+            <div id="alertMessage7" class="alert alert-danger d-none" role="alert">
+              Vui lòng kiểm tra định dạng số zalo
+            </div>
             <div class="row mb-3">
               <label for="bioInput" class="col-sm-3 col-form-label">Địa chỉ:<span style="color: red">*</span></label>
               <div class="col-sm-9">
@@ -118,7 +126,11 @@
       document.getElementById("alertMessage").classList.remove('d-none');
       event.preventDefault();
       return false;
-    } else if (password === "") {
+    } else if(email.indexOf('@') === -1 || email.split('@')[0].length < 9){
+      document.getElementById("alertMessage8").classList.remove('d-none');
+      event.preventDefault();
+      return false;
+    }  else if (password === "") {
       // Nếu chỉ password rỗng, hiển thị thông báo lỗi cho password
       document.getElementById("alertMessage2").classList.remove('d-none');
       event.preventDefault();
@@ -127,6 +139,7 @@
       // Nếu cả hai không rỗng, ẩn các thông báo lỗi và tiếp tục với việc gửi biểu mẫu
       document.getElementById("alertMessage").classList.add('d-none');
       document.getElementById("alertMessage2").classList.add('d-none');
+            document.getElementById("alertMessage8").classList.add('d-none');
     }
 
     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -139,6 +152,26 @@
       // Nếu email hợp lệ, ẩn thông báo lỗi cho email
       document.getElementById("alertMessage4").classList.add('d-none');
     }
+
+    // check phone number và zalo number
+    var phoneRegex = /^0\d{9}$/;
+    if (!phoneRegex.test(phonenumber)) {
+      document.getElementById("alertMessage6").classList.remove('d-none');
+      event.preventDefault();
+      return false;
+    } else {
+      document.getElementById("alertMessage6").classList.add('d-none');
+    }
+
+    // check zalo number
+    if (!phoneRegex.test(zalonumber)) {
+      document.getElementById("alertMessage7").classList.remove('d-none');
+      event.preventDefault();
+      return false;
+    } else {
+      document.getElementById("alertMessage7").classList.add('d-none');
+    }
+
     // check điều kiện
     if (name === "" || address === "" || phonenumber === "" || zalonumber === "") {
       document.getElementById("alert5").classList.remove('d-none');
