@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 //Lấy dữ liệu với role = collector và subrole = urenco
 exports.viewBlacklist = async (req, res) => {
     const view = await databases.listDocuments(process.env.APPWRITE_DB, process.env.APPWRITE_USER_COLLECTION, [
-        sdk.Query.limit(10000),
+        sdk.Query.limit(100000),
         sdk.Query.offset(0)
     ]);
     const blacklistData = view.documents.filter(doc => doc.ban === true).map(doc => ({
