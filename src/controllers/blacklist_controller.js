@@ -1,4 +1,4 @@
-const { client, account, databases } = require('../services/appwrite_client');
+const { databases, storage } = require('../services/appwrite_server');
 const { users } = require('../services/appwrite_server');
 const sdk = require("node-appwrite");
 const { v4: uuidv4 } = require('uuid');
