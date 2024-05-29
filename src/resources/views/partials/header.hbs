@@ -148,10 +148,16 @@
       </div>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="/requests">
+      <a class="nav-link" href="#ui-request" data-bs-toggle="collapse" aria-expanded="false" aria-controls="ui-request">
         <i class="menu-icon mdi mdi-checkbox-marked-outline"></i>
         <span class="menu-title">Yêu cầu thu gom</span>
       </a>
+      <div class="collapse" id="ui-request">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="/requests">Tất cả yêu cầu </a></li>
+          <li class="nav-item"> <a class="nav-link" href="/requests/confirming">Đang chờ xác nhận</a></li>
+        </ul>
+      </div>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="/collection-points">
@@ -165,7 +171,7 @@
         <span class="menu-title">Loại địa điểm</span>
       </a>
     </li>
-        <li class="nav-item">
+    <li class="nav-item">
       <a class="nav-link" href="/information">
         <i class="menu-icon mdi mdi-information"></i>
         <span class="menu-title">Thông tin</span>
