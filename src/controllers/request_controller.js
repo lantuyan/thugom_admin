@@ -29,6 +29,51 @@ exports.viewRequest = async (req, res) => {
 
 };
 
+exports.viewRequestConfirming = async (req, res) => {
+
+    const view = await databases.listDocuments(process.env.APPWRITE_DB, process.env.APPWRITE_REQUEST_COLLECTION,
+        [
+            sdk.Query.limit(100000),
+            sdk.Query.offset(0),
+            sdk.Query.equal("status","confirming"),
+        ]
+    );
+    const requestData = view.documents.map(doc => ({
+        phonenumber: doc.phone_number,
+        address: doc.address,
+        description: doc.description,
+        status: doc.status,
+        trashtype: doc.trash_type,
+        price: doc.collection_price,
+        amount: doc.amount_collected,
+        createAt: moment(doc.createAt).format("DD-MM-YYYY"),
+        id: doc.$id
+    }));
+
+    res.render('request/confirming', { title: "Request", requestData });
+
+};
+
+exports.confirmRequest = async (req, res) => {
+    // res.status(500).send(req.params);
+
+    try {
+        const {id}  = req.params;
+        await databases.updateDocument(
+            process.env.APPWRITE_DB,
+            process.env.APPWRITE_REQUEST_COLLECTION,
+            id,
+            {
+                status: "finish",
+            }
+        );
+        console.log("finish")
+        res.status(200).send('success');
+    } catch (error) {
+        console.log(error)
+        res.status(500).send(error);
+    }
+};
 
 
 // Delete User
