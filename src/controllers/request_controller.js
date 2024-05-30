@@ -105,10 +105,17 @@ exports.editRequest = (req, res) => {
 
 
 exports.updateRequest = (req, res) => {
-    const userId = req.params.id;
-    const { phonenumber, address, description, status, trashtype, price, amount } = req.body;
+    const requestId = req.params.id;
+    var { phonenumber, address, description, status, trashtype, price, amount,metal,paper,bottle,hdpe,nilon,others } = req.body;
 
-    databases.updateDocument(process.env.APPWRITE_DB, process.env.APPWRITE_REQUEST_COLLECTION, userId,
+    metal = metal ? metal.toString() : '0';
+    paper = paper ? paper.toString() : '0';
+    bottle = bottle ? bottle.toString() : '0';
+    hdpe = hdpe ? hdpe.toString() : '0';
+    nilon = nilon ? nilon.toString() : '0';
+    others = others ? others.toString() : '0';
+
+    databases.updateDocument(process.env.APPWRITE_DB, process.env.APPWRITE_REQUEST_COLLECTION, requestId,
         {
             phone_number: phonenumber,
             address: address,
@@ -116,7 +123,13 @@ exports.updateRequest = (req, res) => {
             description: description,
             trash_type: trashtype,
             collection_price: price,
-            amount_collected: amount
+            amount_collected: amount,
+            metal:metal,
+            paper:paper,
+            bottle:bottle,
+            hdpe:hdpe,
+            nilon:nilon,
+            others:others,
         })
         .then(response_update => {
             res.redirect('/requests');
