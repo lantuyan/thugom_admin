@@ -1,86 +1,111 @@
-<div class="container custom-form" style="padding-left: 400px;padding-top:50px">
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="card">
-        <div class="card-body">
-          <form id="myForm" enctype="multipart/form-data">
-            <h1 style="text-align: center;padding-bottom:20px">Cập nhật yêu cầu</h1>
-            <div class="row mb-3">
-              <label for="phoneInput" class="col-sm-3 col-form-label">Số điện thoại:<span style="color: red">*</span></label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="phoneInput" value="{{result.phone_number}}"
-                  placeholder="Phone number" name="phonenumber">
-              </div>
+<div class="container custom-form" style="padding-top:50px">
+  <div class="row justify-content-center">
+    <div class="card">
+      <div class="card-body">
+        <form id="myForm" enctype="multipart/form-data">
+          <h1 style=" text-align: center;padding-bottom:20px">Cập nhật yêu cầu</h1>
+          <div class="row mb-3">
+            <label for="phoneInput" class="col-md-3 ">Số điện thoại:<span style="color: red">*</span></label>
+            <div class="col-md-9">
+              <input type="text" class="form-control" id="phoneInput" value="{{result.phone_number}}"
+                placeholder="Phone number" name="phonenumber">
             </div>
-            <div id="alertMessage6" class="alert alert-danger d-none" role="alert">
-              Vui lòng kiểm tra định dạng số điện thoại
+          </div>
+          <div id="alertMessage6" class="alert alert-danger d-none" role="alert">
+            Vui lòng kiểm tra định dạng số điện thoại
+          </div>
+          <div class="row mb-3">
+            <label for="addressInput" class="col-md-3">Địa chỉ:<span style="color: red">*</span></label>
+            <div class="col-md-9">
+              <input type="text" class="form-control" id="addressInput" value="{{result.address}}" placeholder=""
+                name="address">
             </div>
-            <div class="row mb-3">
-              <label for="addressInput" class="col-sm-3 col-form-label">Địa chỉ:<span
-                  style="color: red">*</span></label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="addressInput" value="{{result.address}}" placeholder=""
-                  name="address">
-              </div>
+          </div>
+          <div class="row mb-3">
+            <label for="descriptionInput" class="col-md-3">Mô tả:<span style="color: red">*</span></label>
+            <div class="col-md-9">
+              <input type="text" class="form-control" id="descriptionInput" value="{{result.description}}"
+                placeholder="" name="description">
             </div>
+          </div>
+          <div class="row mb-3">
+            <label for="statusInput" class="col-md-3">Trạng thái:</label>
+            <div class="col-md-9">
+              <input type="text" class="form-control" id="statusInput" value="{{result.status}}" placeholder=""
+                name="status" readonly>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="trashtypeSelect" class="col-md-3">Loại rác:</label>
+            <div class="col-md-9">
+              <select class="form-select" id="trashtypeSelect" name="trashtype">
+                <option value="">Chọn loại rác</option>
+                <option value="Rác Cồng Kềnh">Rác Cồng Kềnh</option>
+                <option value="Rác Tái Chế">Rác Tái Chế</option>
+                <option value="Rác Xây Dựng">Rác Xây Dựng</option>
+                <option value="Rác Khác">Rác Khác</option>
+              </select>
+            </div>
+          </div>
+          <label for="phoneInput" class="col-form-label">Khối lượng rác (KG)</label>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="metal" class="col-form-label">Kim loại:</label>
+              <input type="number" class="form-control" value="{{result.metal}}" id="metal" placeholder="Kim loại (vỏ lon, ...)" name="metal">
+            </div>
+            <div class="col-md-6">
+              <label for="paper" class="col-form-label">Giấy:</label>
+              <input type="number" class="form-control" value="{{result.paper}}"  id="paper" placeholder="Giấy" name="paper">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="bottle" class="col-form-label">Chai Pet:</label>
+              <input type="number" class="form-control" value="{{result.bottle}}"  id="bottle" placeholder="Chai Pet" name="bottle">
+            </div>
+            <div class="col-md-6">
+              <label for="hdpe" class="col-form-label">Nhựa cứng:</label>
+              <input type="number" class="form-control" value="{{result.hdpe}}"  id="hdpe" placeholder="Nhựa cứng (HDPE)" name="hdpe">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="nilon" class="col-form-label">Túi ni-lông:</label>
+              <input type="number" class="form-control" value="{{result.nilon}}" id="nilon" placeholder="Túi ni-lông" name="nilon">
+            </div>
+            <div class="col-md-6">
+              <label for="others" class="col-form-label">Khác:</label>
+              <input type="number" class="form-control" value="{{result.others}}"  id="others" placeholder="Khác…" name="others">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="priceInput" class="col-md-3">Giá:</label>
+            <div class="col-md-9">
+              <input type="text" class="form-control" id="priceInput" value="{{result.collection_price}}" placeholder=""
+                name="price">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="amountInput" class="col-md-3">Khối lượng:</label>
+            <div class="col-md-9">
+              <input type="text" class="form-control" id="amountInput" value="{{result.amount_collected}}"
+                placeholder="" name="amount">
+            </div>
+          </div>
+          <div id="succesmdessage" class="alert alert-success d-none" role="alert">
+            Cập nhật thành công!
+          </div>
+          <div id="alertMessage5" class="alert alert-danger d-none" role="alert">
+            Vui lòng nhập đầy đủ thông tin yêu cầu
+          </div>
+          <div class="row text-center">
+            <div class="col-12">
+              <button class="btn btn-success" onclick="validateForm()" type="submit">Xác nhận</button>
+              <a href="/requests" class="btn btn-light">Hủy</a>
+            </div>
+          </div>
+        </form>
 
-            <div class="row mb-3">
-              <label for="descriptionInput" class="col-sm-3 col-form-label">Mô tả:<span
-                  style="color: red">*</span></label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="descriptionInput" value="{{result.description}}"
-                  placeholder="" name="description">
-              </div>
-            </div>
-            <div class="row mb-3">
-              <label for="descriptionInput" class="col-sm-3 col-form-label">Trạng thái:</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="statusInput" value="{{result.status}}" placeholder=""
-                  name="status" readonly>
-              </div>
-            </div>
-            <div class="row mb-3">
-              <label for="descriptionInput" class="col-sm-3 col-form-label">Loại rác:</label>
-              <div class="col-sm-9">
-                <select class="form-select" id="trashtypeSelect" name="trashtype">
-                  <option value="">Chọn loại rác</option>
-                  <option value="Rác Cồng Kềnh">Rác Cồng Kềnh</option>
-                  <option value="Rác Tái Chế">Rác Tái Chế</option>
-                  <option value="x">Rác Xây Dựng</option>
-                  <option value="Rác Khác">Rác Khác</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="row mb-3">
-              <label for="descriptionInput" class="col-sm-3 col-form-label">Giá:</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="priceInput" value="{{result.collection_price}}"
-                  placeholder="" name="price">
-              </div>
-            </div>
-            <div class="row mb-3">
-              <label for="descriptionInput" class="col-sm-3 col-form-label">Khối lượng:</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="amountInput" value="{{result.amount_collected}}"
-                  placeholder="" name="amount">
-              </div>
-            </div>
-            <div id="successMessage" class="alert alert-success d-none" role="alert">
-              Cập nhật thành công!
-            </div>
-            <div id="alertMessage5" class="alert alert-danger d-none" role="alert">
-              Vui lòng nhập đầy đủ thông tin yêu cầu
-            </div>
-            <!-- New row for the submit button -->
-            <div class="row">
-              <div class="col-sm-10 offset-sm-2" style="padding-left:150px;"> <!-- Offset to center the button -->
-                <button class="btn btn-success" type="submit" onclick="validateForm()">Xác nhận</button>
-                <a href="/requests" class="btn btn-light">Hủy</a>
-              </div>
-            </div>
-          </form>
-        </div>
       </div>
     </div>
   </div>
@@ -90,7 +115,7 @@
     var phonenumber = document.getElementById("phoneInput").value;
     var address = document.getElementById("addressInput").value;
     var description = document.getElementById("descriptionInput").value;
-
+    var trashtypeSelect = document.getElementById('trashtypeSelect').value;
     var phoneRegex = /^0\d{9}$/;
     if (!phoneRegex.test(phonenumber)) {
       document.getElementById("alertMessage6").classList.remove('d-none');
@@ -100,7 +125,7 @@
       document.getElementById("alertMessage6").classList.add('d-none');
     }
 
-    if (address === "" || phonenumber === "" || description === "") {
+    if (address === "" || phonenumber === "" || description === "" || trashtypeSelect === "") {
       document.getElementById("alertMessage5").classList.remove('d-none');
       event.preventDefault();
       return false;
@@ -109,7 +134,7 @@
       document.getElementById("alertMessage5").classList.add('d-none');
     };
 
-    document.getElementById("successMessage").classList.remove('d-none');
+    document.getElementById("succesmdessage").classList.remove('d-none');
     // If everything is valid, you can proceed with form submission
     document.getElementById("myForm").submit();
 
