@@ -5,14 +5,24 @@ const lodash = require('lodash');
 class SiteController {
     // Route GET /login
     async index(req, res) {
-        const timePeriod = req.query.timePeriod;
-        var untilDate;
-        if (timePeriod === '30days') {
-            // Tính toán ngày kết thúc của tuần hiện tại (Chủ Nhật của tuần này)
-            untilDate = moment().startOf('month').format("YYYY-MM-DD HH:mm:ss");
-        } else {
-            untilDate = moment().subtract(7, 'days').format("YYYY-MM-DD HH:mm:ss");
+        var startDate = req.query.startDate;
+        var endDate = req.query.endDate;
+        
+        const isValidTimestamp = (timestamp) => {
+            return moment(timestamp, 'x', true).isValid();
+        };
+
+        // Check if the dates are present and valid
+        if (!startDate || !endDate) {
+            startDate = moment().subtract(7, 'days').startOf('day').valueOf();
+            endDate = moment().endOf('day').valueOf();
+        } else if (!isValidTimestamp) {
+            return res.status(404).render('errors/404', { title: "Page Not Found" });
         }
+
+        // Convert timestamps to ISO 8601 format for response
+        const startDateISO = moment(parseInt(startDate)).toISOString();
+        const endDateISO = moment(parseInt(endDate)).toISOString();
         try {
             const promise = await databases.listDocuments(
                 process.env.APPWRITE_DB,
@@ -20,9 +30,10 @@ class SiteController {
                 [
                     sdk.Query.limit(100000),
                     sdk.Query.offset(0),
-                    sdk.Query.greaterThanEqual('$createdAt', untilDate),
+                    sdk.Query.greaterThanEqual('$createdAt', startDateISO),
+                    sdk.Query.lessThanEqual('$createdAt', endDateISO),
                     sdk.Query.orderAsc("$createdAt"),
-                    sdk.Query.select(['status', 'createAt','collection_price','amount_collected']) // Chỉ lấy hai trường status và createdAt
+                    sdk.Query.select(['status', 'createAt','collection_price','amount_collected']) 
                 ]
             );
             const userQuery = await databases.listDocuments(
@@ -31,9 +42,9 @@ class SiteController {
                 [
                     sdk.Query.limit(100000),
                     sdk.Query.offset(0),
-                    sdk.Query.greaterThanEqual('$createdAt', untilDate),
-                    // sdk.Query.orderDesc("createAt"),
-                    sdk.Query.select(['role', '$createdAt'],) // Chỉ lấy hai trường status và createdAt
+                    sdk.Query.greaterThanEqual('$createdAt', startDateISO),
+                    sdk.Query.lessThanEqual('$createdAt', endDateISO),
+                    sdk.Query.select(['role', '$createdAt'],)
                 ]
             );
             // Tính tổng collection_price
@@ -48,12 +59,10 @@ class SiteController {
                 'totalCollectionPrice' : totalCollectionPrice,
                 'totalAmountCollected' : totalAmountCollected
             }
-            // res.json(dataRequestAmount);
-            // res.render('home', { title: "Home Page", data7Days: JSON.stringify(data7Days), dataUsers: dataUsers});
-            res.render('home', { title: "Home Page", dataRequestDate: JSON.stringify(dataRequestDate), dataRequestByType:JSON.stringify(dataRequestByType),dataUser: JSON.stringify(dataUser),dataRequestAmount:dataRequestAmount});
+            return res.render('home', { title: "Home Page", dataRequestDate: JSON.stringify(dataRequestDate), dataRequestByType:JSON.stringify(dataRequestByType),dataUser: JSON.stringify(dataUser),dataRequestAmount:dataRequestAmount});
         } catch (error) {
             console.log(error);
-            res.status(500).send(error.message);
+            return res.status(500).send(error.message);
         }
     }
 
