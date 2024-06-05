@@ -39,11 +39,13 @@
             <label for="trashtypeSelect" class="col-md-3">Loại rác:</label>
             <div class="col-md-9">
               <select class="form-select" id="trashtypeSelect" name="trashtype">
-                <option value="">Chọn loại rác</option>
-                <option value="Rác Cồng Kềnh">Rác Cồng Kềnh</option>
-                <option value="Rác Tái Chế">Rác Tái Chế</option>
-                <option value="Rác Xây Dựng">Rác Xây Dựng</option>
-                <option value="Rác Khác">Rác Khác</option>
+                <option value="Rác Cồng Kềnh" {{#if (eq result.trash_type "Rác Cồng Kềnh" )}}selected{{/if}}>Rác Cồng
+                  Kềnh</option>
+                <option value="Rác Tái Chế" {{#if (eq result.trash_type "Rác Tái Chế" )}}selected{{/if}}>Rác Tái Chế
+                </option>
+                <option value="Rác Xây Dựng" {{#if (eq result.trash_type "Rác Xây Dựng" )}}selected{{/if}}>Rác Xây Dựng
+                </option>
+                <option value="Rác Khác" {{#if (eq result.trash_type "Rác Khác" )}}selected{{/if}}>Rác Khác</option>
               </select>
             </div>
           </div>
@@ -51,31 +53,37 @@
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="metal" class="col-form-label">Kim loại:</label>
-              <input type="number" class="form-control" value="{{result.metal}}" id="metal" placeholder="Kim loại (vỏ lon, ...)" name="metal">
+              <input type="number" class="form-control" value="{{result.metal}}" id="metal"
+                placeholder="Kim loại (vỏ lon, ...)" name="metal">
             </div>
             <div class="col-md-6">
               <label for="paper" class="col-form-label">Giấy:</label>
-              <input type="number" class="form-control" value="{{result.paper}}"  id="paper" placeholder="Giấy" name="paper">
+              <input type="number" class="form-control" value="{{result.paper}}" id="paper" placeholder="Giấy"
+                name="paper">
             </div>
           </div>
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="bottle" class="col-form-label">Chai Pet:</label>
-              <input type="number" class="form-control" value="{{result.bottle}}"  id="bottle" placeholder="Chai Pet" name="bottle">
+              <input type="number" class="form-control" value="{{result.bottle}}" id="bottle" placeholder="Chai Pet"
+                name="bottle">
             </div>
             <div class="col-md-6">
               <label for="hdpe" class="col-form-label">Nhựa cứng:</label>
-              <input type="number" class="form-control" value="{{result.hdpe}}"  id="hdpe" placeholder="Nhựa cứng (HDPE)" name="hdpe">
+              <input type="number" class="form-control" value="{{result.hdpe}}" id="hdpe" placeholder="Nhựa cứng (HDPE)"
+                name="hdpe">
             </div>
           </div>
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="nilon" class="col-form-label">Túi ni-lông:</label>
-              <input type="number" class="form-control" value="{{result.nilon}}" id="nilon" placeholder="Túi ni-lông" name="nilon">
+              <input type="number" class="form-control" value="{{result.nilon}}" id="nilon" placeholder="Túi ni-lông"
+                name="nilon">
             </div>
             <div class="col-md-6">
               <label for="others" class="col-form-label">Khác:</label>
-              <input type="number" class="form-control" value="{{result.others}}"  id="others" placeholder="Khác…" name="others">
+              <input type="number" class="form-control" value="{{result.others}}" id="others" placeholder="Khác…"
+                name="others">
             </div>
           </div>
           <div class="row mb-3">
@@ -88,8 +96,7 @@
           <div class="row mb-3">
             <label for="amountInput" class="col-md-3">Khối lượng:</label>
             <div class="col-md-9">
-              <input type="text" class="form-control" id="amountInput" value="{{result.amount_collected}}"
-                placeholder="" name="amount">
+              <input type="text" class="form-control" id="amountInput" name="amount" disabled>
             </div>
           </div>
           <div id="succesmdessage" class="alert alert-success d-none" role="alert">
@@ -137,6 +144,24 @@
     document.getElementById("succesmdessage").classList.remove('d-none');
     // If everything is valid, you can proceed with form submission
     document.getElementById("myForm").submit();
-
   }
+  updateTotalWeight()
+  // Function to update total weight
+  function updateTotalWeight() {
+    var metal = parseFloat($('#metal').val()) || 0;
+    var paper = parseFloat($('#paper').val()) || 0;
+    var bottle = parseFloat($('#bottle').val()) || 0;
+    var hdpe = parseFloat($('#hdpe').val()) || 0;
+    var nilon = parseFloat($('#nilon').val()) || 0;
+    var others = parseFloat($('#others').val()) || 0;
+
+    // Calculate total weight
+    var totalWeight = metal + paper + bottle + hdpe + nilon + others;
+
+    // Update the total weight input field
+    $('#amountInput').val(totalWeight);
+  }
+
+  // Attach change event listener to input fields
+  $('#metal, #paper, #bottle, #hdpe, #nilon, #others').change(updateTotalWeight);
 </script>
