@@ -42,7 +42,9 @@
                                                 <td>{{amount}}</td>
                                                 <td class="align-middle">
                                                     <button class="btn btn-success btn-icon p-2" id="confirmingBtn"
-                                                        data-id="{{ id }}"><i class="mdi mdi-checkbox-marked-outline"></i></button>
+                                                        data-id="{{ id }}" data-bs-toggle="modal"
+                                                        data-bs-target="#ratingModal"><i
+                                                            class="mdi mdi-checkbox-marked-outline"></i></button>
                                                 </td>
                                             </tr>
                                             {{/each}}
@@ -58,15 +60,76 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ratingModalLabel">Vui lòng đánh giá cho yêu cầu này!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="ratingForm">
+                        <div class="text-center">
+                            <div class="stars">
+                                <i class="mdi mdi-star fs-3" data-index="0"></i>
+                                <i class="mdi mdi-star fs-3" data-index="1"></i>
+                                <i class="mdi mdi-star fs-3" data-index="2"></i>
+                                <i class="mdi mdi-star fs-3" data-index="3"></i>
+                                <i class="mdi mdi-star fs-3 " data-index="4"></i>
+                            </div>
+                            <input type="number" class="form-control" value="5" id="rating" name="rating" hidden>
+                        </div>
+                        <div class="text-center mt-3">
+                            <button type="submit" id="submitBtn" data-id="" class="btn btn-primary">Đánh giá</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
     $(document).ready(function () {
         new DataTable('#example');
-        // Bắt sự kiện click trên nút xóa
+
         $(document).on('click', '#confirmingBtn', function () {
             const id = $(this).data('id');
+            $('#submitBtn').attr('data-id', id);
             // Sử dụng SweetAlert để hiển thị cửa sổ xác nhận
+        });
+
+        highlightStars(4)
+        // Event delegation for click event on stars
+        $('.stars').on('click', 'i', function () {
+            var index = $(this).data('index');
+            var rating = index + 1;
+            $('.stars').attr('data-rating', rating);
+            highlightStars(index);
+
+            // Update the input field or perform any other action based on the rating
+            $('#rating').val(rating); // Example: Update an input field with the selected rating
+        });
+
+
+        // Function to highlight stars based on the index
+        function highlightStars(index) {
+            $('.stars i').each(function (i) {
+                if (i <= index) {
+                    $(this).removeClass('mdi-star-outline').addClass('mdi-star text-warning');
+                } else {
+                    $(this).removeClass('mdi-star text-warning').addClass('mdi-star-outline');
+                }
+            });
+        }
+        // Function to submit rating
+        $('#submitBtn').on('click', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            var rating = $('#rating').val();
+            $('#ratingModal').modal('hide');
             swal({
                 title: "Xác nhận yêu cầu này?",
                 text: "Sau khi xác nhận, không thể hoàn tác lại được!",
@@ -77,6 +140,9 @@
                     $.ajax({
                         type: 'GET',
                         url: '/requests/confirming/' + id,
+                        data: {
+                            rating: rating,
+                        },
                         success: function (response) {
                             console.log(response);
                             // Xử lý thành công, có thể làm gì đó nếu cần thiết

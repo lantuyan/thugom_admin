@@ -56,18 +56,19 @@ exports.viewRequestConfirming = async (req, res) => {
 
 exports.confirmRequest = async (req, res) => {
     // res.status(500).send(req.params);
-
+    
     try {
         const {id}  = req.params;
+        const rating = req.query.rating;
         await databases.updateDocument(
             process.env.APPWRITE_DB,
             process.env.APPWRITE_REQUEST_COLLECTION,
             id,
             {
                 status: "finish",
+                rating: parseFloat(rating)
             }
         );
-        console.log("finish")
         res.status(200).send('success');
     } catch (error) {
         console.log(error)

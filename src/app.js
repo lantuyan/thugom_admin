@@ -25,7 +25,12 @@ app.use(session({
 }));
 //Template engine
 app.engine('hbs', handlebars({
-  extname: 'hbs'
+  extname: 'hbs',
+  helpers: {
+    eq: function(v1, v2) {
+      return v1 === v2;
+    }
+  }
 }));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources/views'));
